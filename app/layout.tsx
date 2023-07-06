@@ -1,21 +1,24 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import Navbar from "@/components/Navbar";
+import "./globals.css";
+import Sidebar from "@/components/Sidebar";
 
 export const metadata = {
-  title: 'Music App',
-  description: 'music app',
-}
+    title: "Music App",
+    description: "music app",
+};
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
+    return (
+        <html lang="en">
+            <body className='bg-black m-3'>
+                <Navbar />
+                <Sidebar/>
+                <main className="lg:pl-72 lg:ml-3">{children}</main>
+            </body>
+        </html>
+    );
 }
