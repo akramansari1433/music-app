@@ -12,6 +12,11 @@ interface SongsState {
     songs: any[]; // Replace 'any' with the actual type of your user object
     loading: boolean;
     error: string | null;
+    currentSong?: {
+        imageUrl: string;
+        name: string;
+        audioUrl: string;
+    };
 }
 
 const initialState: SongsState = {

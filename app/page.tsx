@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSongs } from "../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import Image from "next/image";
 import Card from "@/components/Card";
 
 export default function Home() {
@@ -31,8 +30,8 @@ export default function Home() {
                     <Card
                         key={idx}
                         imageUrl={song.artworkUrl100}
-                        artistName={song.trackName}
-                        songUrl={song.previewUrl}
+                        name={song.trackName}
+                        audioUrl={song.previewUrl}
                     />
                 ))}
             </div>

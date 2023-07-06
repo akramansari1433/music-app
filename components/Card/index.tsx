@@ -3,11 +3,11 @@ import React, { useRef, useState } from "react";
 
 interface CardProps {
     imageUrl: string;
-    artistName: string;
-    songUrl: string;
+    name: string;
+    audioUrl: string;
 }
 
-export default function Card({ imageUrl, artistName, songUrl }: CardProps) {
+export default function Card({ imageUrl, name, audioUrl }: CardProps) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -35,10 +35,8 @@ export default function Card({ imageUrl, artistName, songUrl }: CardProps) {
                 width={200}
                 loading="lazy"
             />
-            <span className="text-white text-sm mt-3 font-mono">
-                {artistName}
-            </span>
-            <audio ref={audioRef} src={songUrl}></audio>
+            <span className="text-white text-sm mt-3 font-mono">{name}</span>
+            <audio ref={audioRef} src={audioUrl}></audio>
         </div>
     );
 }
