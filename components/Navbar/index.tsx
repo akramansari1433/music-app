@@ -8,7 +8,7 @@ import { ChevronDownIcon,MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
-        <div className="fixed top-3 inset-x-3">
+        <div className="fixed top-3 inset-x-3 z-50">
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog
                     as="div"
@@ -132,7 +132,7 @@ export default function Navbar() {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                                    <Menu.Items className="absolute right-0 z-50 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <a
