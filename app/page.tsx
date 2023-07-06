@@ -30,17 +30,17 @@ export default function Home() {
                 {songs.map((song, idx) => (
                     <div
                         key={idx}
-                        className=" max-w-sm w-full border rounded-xl flex flex-col items-center p-3"
+                        className=" max-w-sm w-full border rounded-xl flex flex-col items-center p-3 hover:scale-105 duration-300"
                     >
                         <Image
                             className="object-cover"
                             src={song.artworkUrl100}
                             alt={song.collectionName}
                             height={150}
-                            width={150}
+                            width={200}
                             loading="lazy"
                         />
-                        <span className="text-white text-sm mt-3">
+                        <span className="text-white text-sm mt-3 font-mono">
                             {song.artistName}
                         </span>
                     </div>
