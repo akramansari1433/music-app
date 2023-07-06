@@ -4,7 +4,7 @@ import React from "react";
 
 export default function MusicPlayer() {
     return (
-        <div className="text-white fixed bottom-3 w-full h-14 flex flex-row justify-between overflow-hidden">
+        <div className="text-white bg-black z-50 fixed bottom-0 w-full h-20 p-3 flex flex-row justify-between overflow-hidden">
             <div className="flex flex-row items-center gap-x-3">
                 <div className="bg-white text-black text-sm h-full w-14 flex items-center justify-center rounded-md">
                     Song <br /> name

@@ -20,7 +20,7 @@ export default function RootLayout({
                 <Providers>
                     <Navbar />
                     <Sidebar />
-                    <main className="lg:pl-72 lg:ml-3">{children}</main>
+                    <main className="lg:pl-72 lg:ml-3 mt-20">{children}</main>
                     <MusicPlayer />
                 </Providers>
             </body>

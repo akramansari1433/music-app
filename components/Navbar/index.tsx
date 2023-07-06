@@ -8,7 +8,7 @@ import { ChevronDownIcon,MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
-        <div>
+        <div className="fixed top-3 inset-x-3">
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog
                     as="div"
