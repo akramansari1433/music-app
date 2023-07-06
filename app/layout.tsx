@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import MusicPlayer from "@/components/MusicPlayer";
 
 export const metadata = {
     title: "Music App",
@@ -18,6 +19,7 @@ export default function RootLayout({
                 <Navbar />
                 <Sidebar/>
                 <main className="lg:pl-72 lg:ml-3">{children}</main>
+                <MusicPlayer/>
             </body>
         </html>
     );
