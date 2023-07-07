@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSongs } from "../slices/songsSlice";
+import { fetchSongs, fetchMoreSongs } from "../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import Card from "@/components/Card";
 
@@ -10,12 +10,34 @@ export default function Home() {
     const { songs, loading, error, activeSong } = useSelector(
         (state: RootState) => state.songs
     );
+    const [loadingMore, setLoadingMore] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         dispatch(fetchSongs());
     }, [dispatch]);
 
-    if (loading) {
+    function onIntersection(enteries: IntersectionObserverEntry[]) {
+        const firstEntry = enteries[0];
+        if (firstEntry.isIntersecting) {
+            dispatch(fetchMoreSongs(songs.length));
+        }
+    }
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(onIntersection);
+        if (observer && containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (observer) {
+                observer.disconnect();
+            }
+        };
+    }, [songs]);
+
+    if (loading && songs.length === 0) {
         return <div className="text-white p-5">Loading...</div>;
     }
 
@@ -34,6 +56,7 @@ export default function Home() {
                     <Card key={idx} {...song} />
                 ))}
             </div>
+            <div ref={containerRef}>Loading more songs...</div>
         </main>
     );
 }

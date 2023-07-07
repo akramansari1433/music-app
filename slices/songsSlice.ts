@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSongs = createAsyncThunk("songs/fetchSongs", async () => {
     const response = await fetch(
-        `https://itunes.apple.com/search/?term=bollywood&offset=0&limit=50`
+        `https://itunes.apple.com/search/?term=bollywood&offset=0&limit=10`
     );
     const data = await response.json();
     return data.results.map((song: any) => ({
@@ -14,11 +14,28 @@ export const fetchSongs = createAsyncThunk("songs/fetchSongs", async () => {
     }));
 });
 
+export const fetchMoreSongs = createAsyncThunk(
+    "songs/fetchMoreSongs",
+    async (offset: number) => {
+        const response = await fetch(
+            `https://itunes.apple.com/search/?term=bollywood&offset=${offset}&limit=10`
+        );
+        const data = await response.json();
+        return data.results.map((song: any) => ({
+            id: song.trackId,
+            imageUrl: song.artworkUrl100,
+            name: song.trackName,
+            audioUrl: song.previewUrl,
+            artistName: song.artistName,
+        }));
+    }
+);
+
 export const searchSongs = createAsyncThunk(
     "songs/searchSongs",
     async (searchTerm: string) => {
         const response = await fetch(
-            `https://itunes.apple.com/search/?term=${searchTerm}&offset=0&limit=10`
+            `https://itunes.apple.com/search/?term=${searchTerm}&offset=0&limit=0`
         );
         const data = await response.json();
         return data.results.map((song: any) => ({
@@ -105,6 +122,18 @@ const songsSlice = createSlice({
                 state.songs = action.payload;
             })
             .addCase(searchSongs.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message as string;
+            })
+            .addCase(fetchMoreSongs.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchMoreSongs.fulfilled, (state, action) => {
+                state.loading = false;
+                state.songs.push(...action.payload);
+            })
+            .addCase(fetchMoreSongs.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message as string;
             });
