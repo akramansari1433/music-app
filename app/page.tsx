@@ -29,9 +29,10 @@ export default function Home() {
                 {songs.map((song, idx) => (
                     <Card
                         key={idx}
-                        imageUrl={song.artworkUrl100}
-                        name={song.trackName}
-                        audioUrl={song.previewUrl}
+                        imageUrl={song.imageUrl}
+                        name={song.name}
+                        audioUrl={song.audioUrl}
+                        artistName={song.artistName}
                     />
                 ))}
             </div>

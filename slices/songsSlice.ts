@@ -5,30 +5,48 @@ export const fetchSongs = createAsyncThunk("songs/fetcSongs", async () => {
         `https://itunes.apple.com/search/?term=bollywood&offset=0&limit=50`
     );
     const data = await response.json();
-    return data.results;
+    return data.results.map((song: any) => ({
+        imageUrl: song.artworkUrl100,
+        name: song.trackName,
+        audioUrl: song.previewUrl,
+        artistName: song.artistName,
+    }));
 });
 
+interface Song {
+    imageUrl: string;
+    name: string;
+    audioUrl: string;
+    artistName: string;
+}
+
 interface SongsState {
-    songs: any[]; // Replace 'any' with the actual type of your user object
+    songs: Song[]; // Replace 'any' with the actual type of your user object
     loading: boolean;
     error: string | null;
-    currentSong?: {
+    currentSong: {
         imageUrl: string;
         name: string;
         audioUrl: string;
-    };
+        artistName: string;
+    } | null;
 }
 
 const initialState: SongsState = {
     songs: [],
     loading: false,
     error: null,
+    currentSong: null,
 };
 
 const userSlice = createSlice({
     name: "songs",
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentSong: (state, action) => {
+            state.currentSong = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchSongs.pending, (state) => {
@@ -46,4 +64,5 @@ const userSlice = createSlice({
     },
 });
 
+export const { setCurrentSong } = userSlice.actions;
 export default userSlice.reducer;
