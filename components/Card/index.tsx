@@ -1,8 +1,8 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { setActiveSong } from "../../slices/songsSlice";
+import React, { useEffect, useRef } from "react";
+import { setActiveSong, setPlaying } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store/store";
+import { RootState } from "@/store/store";
 import { PlayIcon } from "@heroicons/react/24/solid";
 import { PauseIcon } from "@heroicons/react/20/solid";
 
@@ -21,27 +21,26 @@ export default function Card({
     audioUrl,
     artistName,
 }: Song) {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
     const activeSong = useSelector(
         (state: RootState) => state.songs.activeSong
     );
+    const isPlaying = useSelector((state: RootState) => state.songs.isPlaying);
 
     useEffect(() => {
-        if (
-            activeSong &&
-            activeSong.audioUrl !== audioUrl &&
-            audioRef.current
-        ) {
-            audioRef.current.pause();
-            setIsPlaying(false);
+        if (activeSong && activeSong.id === id && audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
         }
-    }, [activeSong, audioUrl]);
+    }, [isPlaying, activeSong, id]);
 
     const playSong = () => {
-        if (activeSong && activeSong.audioUrl === audioUrl) {
-            setIsPlaying(!isPlaying);
+        if (activeSong && activeSong.id === id) {
+            dispatch(setPlaying(!isPlaying));
         } else {
             dispatch(
                 setActiveSong({
@@ -52,19 +51,9 @@ export default function Card({
                     artistName,
                 })
             );
-            setIsPlaying(true);
+            dispatch(setPlaying(true));
         }
     };
-
-    useEffect(() => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.play();
-            } else {
-                audioRef.current.pause();
-            }
-        }
-    }, [isPlaying]);
 
     return (
         <div className="w-full flex flex-row justify-between items-center p-2 rounded-xl hover:bg-gray-800">
@@ -92,14 +81,16 @@ export default function Card({
                     className="mx-5 bg-white rounded-full p-2 shadow-2xl"
                     onClick={playSong}
                 >
-                    {isPlaying ? (
+                    {activeSong && activeSong.id === id && isPlaying ? (
                         <PauseIcon className="h-5 w-5" />
                     ) : (
                         <PlayIcon className="h-5 w-5" />
                     )}
                 </button>
             </div>
-            <audio ref={audioRef} src={audioUrl}></audio>
+            {activeSong && activeSong.id === id && (
+                <audio ref={audioRef} src={audioUrl}></audio>
+            )}
         </div>
     );
 }

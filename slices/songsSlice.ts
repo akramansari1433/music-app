@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchSongs = createAsyncThunk("songs/fetcSongs", async () => {
+export const fetchSongs = createAsyncThunk("songs/fetchSongs", async () => {
     const response = await fetch(
         `https://itunes.apple.com/search/?term=bollywood&offset=0&limit=50`
     );
@@ -23,10 +23,11 @@ interface Song {
 }
 
 interface SongsState {
-    songs: Song[]; // Replace 'any' with the actual type of your user object
+    songs: Song[];
     loading: boolean;
     error: string | null;
     activeSong: Song | null;
+    isPlaying: boolean;
 }
 
 const initialState: SongsState = {
@@ -34,14 +35,18 @@ const initialState: SongsState = {
     loading: false,
     error: null,
     activeSong: null,
+    isPlaying: false,
 };
 
-const userSlice = createSlice({
+const songsSlice = createSlice({
     name: "songs",
     initialState,
     reducers: {
         setActiveSong: (state, action) => {
             state.activeSong = action.payload;
+        },
+        setPlaying: (state, action) => {
+            state.isPlaying = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -61,5 +66,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { setActiveSong } = userSlice.actions;
-export default userSlice.reducer;
+export const { setActiveSong, setPlaying } = songsSlice.actions;
+export default songsSlice.reducer;
