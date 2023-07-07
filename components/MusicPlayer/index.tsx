@@ -1,13 +1,17 @@
 "use client";
-import { RootState } from "@/store/store";
-import { SpeakerWaveIcon } from "@heroicons/react/20/solid";
+import { setPlaying } from "@/slices/songsSlice";
+import { AppDispatch, RootState } from "@/store/store";
+import { PauseIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
 import { BackwardIcon, ForwardIcon, PlayIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function MusicPlayer() {
-    const { activeSong } = useSelector((state: RootState) => state.songs);
+    const { activeSong, isPlaying } = useSelector(
+        (state: RootState) => state.songs
+    );
+    const dispatch = useDispatch<AppDispatch>();
     return (
         activeSong && (
             <div className="text-white bg-black z-50 fixed bottom-0 w-full h-20 p-3 overflow-hidden">
@@ -31,9 +35,16 @@ export default function MusicPlayer() {
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center justify-center gap-5">
-                            <BackwardIcon className="h-6 w-6" />
-                            <PlayIcon className="h-8 w-8 p-2 bg-white text-black rounded-full" />
-                            <ForwardIcon className="h-6 w-6" />
+                            <button
+                                className="bg-white text-black rounded-full p-2"
+                                onClick={() => dispatch(setPlaying(!isPlaying))}
+                            >
+                                {isPlaying ? (
+                                    <PauseIcon className="h-6 w-6" />
+                                ) : (
+                                    <PlayIcon className="h-6 w-6" />
+                                )}
+                            </button>
                         </div>
                         <div className="flex flex-row items-center gap-3">
                             <span className="text-xs">0:00</span>
