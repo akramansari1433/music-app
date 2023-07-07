@@ -1,8 +1,11 @@
 "use client";
 import { setPlaying } from "@/slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import { PauseIcon, SpeakerWaveIcon } from "@heroicons/react/20/solid";
-import { BackwardIcon, ForwardIcon, PlayIcon } from "@heroicons/react/24/solid";
+import {
+    PauseIcon,
+    SpeakerWaveIcon,
+    PlayIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +15,17 @@ export default function MusicPlayer() {
         (state: RootState) => state.songs
     );
     const dispatch = useDispatch<AppDispatch>();
+
+    function formatDuration(duration: number) {
+        const minutes = Math.floor(duration / 60);
+        const seconds = Math.floor(duration % 60);
+
+        const formattedMinutes = String(minutes).padStart(2, "0");
+        const formattedSeconds = String(seconds).padStart(2, "0");
+
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
+
     return (
         <div
             className={`text-white bg-black  fixed bottom-0 w-full ${
@@ -52,9 +66,20 @@ export default function MusicPlayer() {
                             </button>
                         </div>
                         <div className="w-full md:fit flex flex-row items-center gap-3">
-                            <span className="text-xs">0:00</span>
-                            <div className="h-1.5 w-full md:w-36 rounded-md bg-gray-300"></div>
-                            <span className="text-xs">3:00</span>
+                            <span className="text-xs">
+                                {formatDuration(activeSong.progress)}
+                            </span>
+                            <input
+                                className="w-full md:w-36"
+                                type="range"
+                                min={0}
+                                max={activeSong.duration}
+                                value={activeSong.progress || 0}
+                                readOnly
+                            />
+                            <span className="text-xs">
+                                {formatDuration(activeSong.duration)}
+                            </span>
                         </div>
                     </div>
                     <div className="hidden md:flex flex-row items-center gap-3 h-full w-64">

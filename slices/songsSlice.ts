@@ -26,7 +26,15 @@ interface SongsState {
     songs: Song[];
     loading: boolean;
     error: string | null;
-    activeSong: Song | null;
+    activeSong: {
+        id: string;
+        imageUrl: string;
+        name: string;
+        audioUrl: string;
+        artistName: string;
+        duration: number;
+        progress: number;
+    } | null;
     isPlaying: boolean;
 }
 
@@ -48,6 +56,14 @@ const songsSlice = createSlice({
         setPlaying: (state, action) => {
             state.isPlaying = action.payload;
         },
+        setActiveSongProgress: (state, action) => {
+            if (state.activeSong) {
+                state.activeSong = {
+                    ...state.activeSong,
+                    progress: action.payload,
+                };
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -66,5 +82,6 @@ const songsSlice = createSlice({
     },
 });
 
-export const { setActiveSong, setPlaying } = songsSlice.actions;
+export const { setActiveSong, setPlaying, setActiveSongProgress } =
+    songsSlice.actions;
 export default songsSlice.reducer;

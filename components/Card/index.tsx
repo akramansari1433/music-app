@@ -1,6 +1,10 @@
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
-import { setActiveSong, setPlaying } from "../../slices/songsSlice";
+import {
+    setActiveSong,
+    setActiveSongProgress,
+    setPlaying,
+} from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { PlayIcon } from "@heroicons/react/24/solid";
@@ -42,16 +46,20 @@ export default function Card({
         if (activeSong && activeSong.id === id) {
             dispatch(setPlaying(!isPlaying));
         } else {
-            dispatch(
-                setActiveSong({
-                    id,
-                    imageUrl,
-                    name,
-                    audioUrl,
-                    artistName,
-                })
-            );
-            dispatch(setPlaying(true));
+            const audioElement = new Audio(audioUrl);
+            audioElement.addEventListener("loadedmetadata", () => {
+                dispatch(
+                    setActiveSong({
+                        id,
+                        imageUrl,
+                        name,
+                        audioUrl,
+                        artistName,
+                        duration: audioElement.duration,
+                    })
+                );
+                dispatch(setPlaying(true));
+            });
         }
     };
 
@@ -93,6 +101,11 @@ export default function Card({
                     ref={audioRef}
                     src={audioUrl}
                     onEnded={() => dispatch(setPlaying(false))}
+                    onTimeUpdate={() =>
+                        dispatch(
+                            setActiveSongProgress(audioRef.current?.currentTime)
+                        )
+                    }
                 ></audio>
             )}
         </div>
