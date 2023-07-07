@@ -4,6 +4,7 @@ import { setActiveSong } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { PlayIcon } from "@heroicons/react/24/solid";
+import { PauseIcon } from "@heroicons/react/20/solid";
 
 interface Song {
     id: string;
@@ -65,9 +66,15 @@ export default function Card({
         }
     }, [isPlaying]);
 
+    function convertDuration(durationInSeconds: number) {
+        var minutes = Math.floor(durationInSeconds / 60);
+        var seconds = Math.round(durationInSeconds % 60);
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
     return (
         <div className="w-full flex flex-row justify-between items-center p-2 rounded-xl hover:bg-gray-800">
-            <div className="flex flex-row gap-5 items-center">
+            <div className="flex flex-row w-full gap-5 items-center">
                 <Image
                     className="object-cover aspect-square rounded-md"
                     src={imageUrl}
@@ -86,12 +93,19 @@ export default function Card({
                 </div>
             </div>
 
-            <div>
+            <div className="flex flex-row items-center">
+                <span className="text-sm text-white">
+                    {convertDuration(audioRef.current?.duration!)}
+                </span>
                 <button
                     className="mx-5 bg-white rounded-full p-2 shadow-2xl"
                     onClick={playSong}
                 >
-                    <PlayIcon className="h-5 w-5" />
+                    {isPlaying ? (
+                        <PauseIcon className="h-5 w-5" />
+                    ) : (
+                        <PlayIcon className="h-5 w-5" />
+                    )}
                 </button>
             </div>
             <audio ref={audioRef} src={audioUrl}></audio>
