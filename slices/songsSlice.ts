@@ -29,7 +29,6 @@ interface SongsState {
         name: string;
         audioUrl: string;
         artistName: string;
-        playing: boolean;
     } | null;
 }
 
@@ -46,12 +45,6 @@ const userSlice = createSlice({
     reducers: {
         setCurrentSong: (state, action) => {
             state.currentSong = action.payload;
-        },
-        playCurrentSong: (state) => {
-            if (state.currentSong) state.currentSong.playing = true;
-        },
-        pauseCurrentSong: (state) => {
-            if (state.currentSong) state.currentSong.playing = false;
         },
     },
     extraReducers: (builder) => {
@@ -71,6 +64,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { setCurrentSong, playCurrentSong, pauseCurrentSong } =
-    userSlice.actions;
+export const { setCurrentSong } = userSlice.actions;
 export default userSlice.reducer;

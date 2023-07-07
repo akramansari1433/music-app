@@ -1,10 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import {
-    pauseCurrentSong,
-    playCurrentSong,
-    setCurrentSong,
-} from "../../slices/songsSlice";
+import { setCurrentSong } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 
@@ -29,7 +25,6 @@ export default function Card({
     );
 
     useEffect(() => {
-        // Pause the audio if the current song changes
         if (
             currentSong &&
             currentSong.audioUrl !== audioUrl &&
@@ -42,8 +37,6 @@ export default function Card({
 
     const playSong = () => {
         if (currentSong && currentSong.audioUrl === audioUrl) {
-            // Pause the audio if it's the same song
-            dispatch(pauseCurrentSong());
             setIsPlaying(false);
         } else {
             dispatch(setCurrentSong({ imageUrl, name, audioUrl, artistName }));
@@ -52,7 +45,6 @@ export default function Card({
     };
 
     useEffect(() => {
-        // Play or pause the audio based on the isPlaying state
         if (audioRef.current) {
             if (isPlaying) {
                 audioRef.current.play();
