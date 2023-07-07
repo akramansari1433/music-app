@@ -1,8 +1,12 @@
 import Image from "next/image";
-import React, { useRef, useState } from "react";
-import { setCurrentSong } from "../../slices/songsSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
+import React, { useEffect, useRef, useState } from "react";
+import {
+    pauseCurrentSong,
+    playCurrentSong,
+    setCurrentSong,
+} from "../../slices/songsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 
 interface CardProps {
     imageUrl: string;
@@ -20,18 +24,43 @@ export default function Card({
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const currentSong = useSelector(
+        (state: RootState) => state.songs.currentSong
+    );
+
+    useEffect(() => {
+        // Pause the audio if the current song changes
+        if (
+            currentSong &&
+            currentSong.audioUrl !== audioUrl &&
+            audioRef.current
+        ) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+        }
+    }, [currentSong, audioUrl]);
 
     const playSong = () => {
-        dispatch(setCurrentSong({ imageUrl, name, audioUrl, artistName }));
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play();
-            }
-            setIsPlaying(!isPlaying);
+        if (currentSong && currentSong.audioUrl === audioUrl) {
+            // Pause the audio if it's the same song
+            dispatch(pauseCurrentSong());
+            setIsPlaying(false);
+        } else {
+            dispatch(setCurrentSong({ imageUrl, name, audioUrl, artistName }));
+            setIsPlaying(true);
         }
     };
+
+    useEffect(() => {
+        // Play or pause the audio based on the isPlaying state
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isPlaying]);
 
     return (
         <div
