@@ -7,9 +7,24 @@ import {
     ChevronDownIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { searchSongs } from "@/slices/songsSlice";
+import { debounce } from "lodash";
 
 export default function Navbar() {
+    const dispatch = useDispatch<AppDispatch>();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const debouncedSearch = debounce((searchValue) => {
+        dispatch(searchSongs(searchValue));
+    }, 500);
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+        debouncedSearch(searchValue);
+    };
+
     return (
         <div className="fixed top-3 inset-x-3 z-50">
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -104,6 +119,7 @@ export default function Navbar() {
                                 placeholder="Search..."
                                 type="search"
                                 name="search"
+                                onChange={handleSearch}
                             />
                         </form>
                         <div className="flex items-center gap-x-4 lg:gap-x-6">

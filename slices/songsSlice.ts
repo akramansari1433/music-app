@@ -14,6 +14,23 @@ export const fetchSongs = createAsyncThunk("songs/fetchSongs", async () => {
     }));
 });
 
+export const searchSongs = createAsyncThunk(
+    "songs/searchSongs",
+    async (searchTerm: string) => {
+        const response = await fetch(
+            `https://itunes.apple.com/search/?term=${searchTerm}&offset=0&limit=50`
+        );
+        const data = await response.json();
+        return data.results.map((song: any) => ({
+            id: song.trackId,
+            imageUrl: song.artworkUrl100,
+            name: song.trackName,
+            audioUrl: song.previewUrl,
+            artistName: song.artistName,
+        }));
+    }
+);
+
 interface Song {
     id: string;
     imageUrl: string;
@@ -76,6 +93,18 @@ const songsSlice = createSlice({
                 state.songs = action.payload;
             })
             .addCase(fetchSongs.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message as string;
+            })
+            .addCase(searchSongs.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(searchSongs.fulfilled, (state, action) => {
+                state.loading = false;
+                state.songs = action.payload;
+            })
+            .addCase(searchSongs.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message as string;
             });
