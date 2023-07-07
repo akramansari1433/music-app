@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { setCurrentSong } from "../../slices/songsSlice";
+import { setActiveSong } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 
@@ -20,26 +20,26 @@ export default function Card({
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const currentSong = useSelector(
-        (state: RootState) => state.songs.currentSong
+    const activeSong = useSelector(
+        (state: RootState) => state.songs.activeSong
     );
 
     useEffect(() => {
         if (
-            currentSong &&
-            currentSong.audioUrl !== audioUrl &&
+            activeSong &&
+            activeSong.audioUrl !== audioUrl &&
             audioRef.current
         ) {
             audioRef.current.pause();
             setIsPlaying(false);
         }
-    }, [currentSong, audioUrl]);
+    }, [activeSong, audioUrl]);
 
     const playSong = () => {
-        if (currentSong && currentSong.audioUrl === audioUrl) {
+        if (activeSong && activeSong.audioUrl === audioUrl) {
             setIsPlaying(false);
         } else {
-            dispatch(setCurrentSong({ imageUrl, name, audioUrl, artistName }));
+            dispatch(setActiveSong({ imageUrl, name, audioUrl, artistName }));
             setIsPlaying(true);
         }
     };
@@ -54,9 +54,11 @@ export default function Card({
         }
     }, [isPlaying]);
 
+    console.log(audioRef.current?.duration);
+
     return (
         <div
-            className="w-full flex flex-row gap-5 items-center p-3"
+            className="w-full flex flex-row gap-5 items-center p-2 rounded-xl hover:bg-gray-800"
             onClick={playSong}
         >
             <Image

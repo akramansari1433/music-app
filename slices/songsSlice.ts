@@ -6,6 +6,7 @@ export const fetchSongs = createAsyncThunk("songs/fetcSongs", async () => {
     );
     const data = await response.json();
     return data.results.map((song: any) => ({
+        id: song.trackId,
         imageUrl: song.artworkUrl100,
         name: song.trackName,
         audioUrl: song.previewUrl,
@@ -14,6 +15,7 @@ export const fetchSongs = createAsyncThunk("songs/fetcSongs", async () => {
 });
 
 interface Song {
+    id: string;
     imageUrl: string;
     name: string;
     audioUrl: string;
@@ -24,7 +26,7 @@ interface SongsState {
     songs: Song[]; // Replace 'any' with the actual type of your user object
     loading: boolean;
     error: string | null;
-    currentSong: {
+    activeSong: {
         imageUrl: string;
         name: string;
         audioUrl: string;
@@ -36,15 +38,15 @@ const initialState: SongsState = {
     songs: [],
     loading: false,
     error: null,
-    currentSong: null,
+    activeSong: null,
 };
 
 const userSlice = createSlice({
     name: "songs",
     initialState,
     reducers: {
-        setCurrentSong: (state, action) => {
-            state.currentSong = action.payload;
+        setActiveSong: (state, action) => {
+            state.activeSong = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -64,5 +66,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { setCurrentSong } = userSlice.actions;
+export const { setActiveSong } = userSlice.actions;
 export default userSlice.reducer;

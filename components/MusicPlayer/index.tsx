@@ -7,24 +7,22 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 export default function MusicPlayer() {
-    const { currentSong } = useSelector((state: RootState) => state.songs);
+    const { activeSong } = useSelector((state: RootState) => state.songs);
     return (
-        currentSong && (
+        activeSong && (
             <div className="text-white bg-black z-50 fixed bottom-0 w-full h-20 p-3 flex flex-row justify-between overflow-hidden">
                 <div className="flex flex-row items-center gap-x-3 max-w-xs">
                     <Image
                         className="aspect-square object-cover rounded-md"
-                        src={currentSong?.imageUrl}
+                        src={activeSong?.imageUrl}
                         alt="song-image"
                         width={50}
                         height={50}
                     />
                     <div className="flex flex-col">
-                        <span className="line-clamp-1">
-                            {currentSong?.name}
-                        </span>
+                        <span className="line-clamp-1">{activeSong?.name}</span>
                         <span className="text-xs line-clamp-1">
-                            {currentSong.artistName}
+                            {activeSong.artistName}
                         </span>
                     </div>
                 </div>
