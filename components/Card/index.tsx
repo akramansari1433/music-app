@@ -89,7 +89,11 @@ export default function Card({
                 </button>
             </div>
             {activeSong && activeSong.id === id && (
-                <audio ref={audioRef} src={audioUrl}></audio>
+                <audio
+                    ref={audioRef}
+                    src={audioUrl}
+                    onEnded={() => dispatch(setPlaying(false))}
+                ></audio>
             )}
         </div>
     );
