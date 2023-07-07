@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchSongs = createAsyncThunk("songs/fetchSongs", async () => {
     const response = await fetch(
-        `https://itunes.apple.com/search/?term=bollywood&offset=0&limit=10`
+        `https://itunes.apple.com/search/?term=top100&offset=0&limit=10`
     );
     const data = await response.json();
     return data.results.map((song: any) => ({
@@ -131,7 +131,11 @@ const songsSlice = createSlice({
             })
             .addCase(fetchMoreSongs.fulfilled, (state, action) => {
                 state.loading = false;
-                state.songs.push(...action.payload);
+                const newSongs = action.payload.filter(
+                    (newSong: Song) =>
+                        !state.songs.some((song) => song.id === newSong.id)
+                );
+                state.songs.push(...newSongs);
             })
             .addCase(fetchMoreSongs.rejected, (state, action) => {
                 state.loading = false;
