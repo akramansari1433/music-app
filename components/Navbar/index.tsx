@@ -3,7 +3,10 @@ import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon,MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import {
+    ChevronDownIcon,
+    MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
 
 export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -138,9 +141,11 @@ export default function Navbar() {
                                                 <a
                                                     href={"/#"}
                                                     className={`
-                                                        ${active
-                                                            ? "bg-gray-50"
-                                                            : ""}
+                                                        ${
+                                                            active
+                                                                ? "bg-gray-50"
+                                                                : ""
+                                                        }
                                                          block px-3 py-1 text-sm leading-6 text-gray-900
                                                     `}
                                                 >

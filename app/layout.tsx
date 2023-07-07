@@ -16,11 +16,11 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className="bg-black m-3">
+            <body className="bg-black">
                 <Providers>
                     <Navbar />
                     <Sidebar />
-                    <main className="lg:ml-80 mx-4 my-1 fixed top-20 bottom-24 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg">
+                    <main className="lg:ml-[19.75rem] mx-3 my-1 fixed top-20 bottom-24 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg">
                         {children}
                     </main>
                     <MusicPlayer />

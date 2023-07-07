@@ -74,7 +74,7 @@ export default function Card({
                     alt="song-image"
                     height={75}
                     width={75}
-                    loading="lazy"
+                    loading="eager"
                 />
                 <div className="w-1/3">
                     <span className="text-white text-sm mt-3 font-mono line-clamp-1">
