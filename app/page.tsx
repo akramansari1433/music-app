@@ -30,8 +30,8 @@ export default function Home() {
             } transition-all duration-300 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-5`}
         >
             <div className="flex flex-col">
-                {songs.map((song) => (
-                    <Card key={song.id} {...song} />
+                {songs.map((song, idx) => (
+                    <Card key={idx} {...song} />
                 ))}
             </div>
         </main>

@@ -18,7 +18,7 @@ export const searchSongs = createAsyncThunk(
     "songs/searchSongs",
     async (searchTerm: string) => {
         const response = await fetch(
-            `https://itunes.apple.com/search/?term=${searchTerm}&offset=0&limit=50`
+            `https://itunes.apple.com/search/?term=${searchTerm}&offset=0&limit=10`
         );
         const data = await response.json();
         return data.results.map((song: any) => ({
