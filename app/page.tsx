@@ -7,7 +7,7 @@ import Card from "@/components/Card";
 
 export default function Home() {
     const dispatch = useDispatch<AppDispatch>();
-    const { songs, loading, error } = useSelector(
+    const { songs, loading, error, activeSong } = useSelector(
         (state: RootState) => state.songs
     );
 
@@ -24,7 +24,11 @@ export default function Home() {
     }
 
     return (
-        <main className="p-5">
+        <main
+            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
+                activeSong ? "bottom-24" : "bottom-3 z-10"
+            } transition-all duration-300 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-5`}
+        >
             <div className="flex flex-col">
                 {songs.map((song) => (
                     <Card key={song.id} {...song} />
