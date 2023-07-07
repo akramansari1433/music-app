@@ -35,23 +35,25 @@ export default function Card({
 
     return (
         <div
-            className=" max-w-sm w-full border rounded-xl flex flex-col items-center p-3 hover:scale-105 duration-300"
+            className="w-full flex flex-row gap-5 items-center p-3"
             onClick={playSong}
         >
             <Image
-                className="object-cover max-h-44"
+                className="object-cover aspect-square rounded-md"
                 src={imageUrl}
                 alt="song-image"
-                height={150}
-                width={200}
+                height={75}
+                width={75}
                 loading="lazy"
             />
-            <span className="text-white text-sm mt-3 font-mono line-clamp-2">
-                {name}
-            </span>
-            <span className="text-white text-xs mt-3 font-mono line-clamp-1">
-                {artistName}
-            </span>
+            <div className="w-1/3">
+                <span className="text-white text-sm mt-3 font-mono line-clamp-1">
+                    {name}
+                </span>
+                <span className="text-white text-xs mt-3 font-mono line-clamp-1">
+                    {artistName}
+                </span>
+            </div>
             <audio ref={audioRef} src={audioUrl}></audio>
         </div>
     );
