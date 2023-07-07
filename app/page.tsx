@@ -26,15 +26,8 @@ export default function Home() {
     return (
         <main className="p-5">
             <div className="flex flex-col">
-                {songs.map((song, idx) => (
-                    <div key={idx}>
-                        <Card
-                            imageUrl={song.imageUrl}
-                            name={song.name}
-                            audioUrl={song.audioUrl}
-                            artistName={song.artistName}
-                        />
-                    </div>
+                {songs.map((song) => (
+                    <Card key={song.id} {...song} />
                 ))}
             </div>
         </main>
