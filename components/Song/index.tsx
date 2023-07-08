@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     setActiveSong,
     setActiveSongProgress,
@@ -7,16 +7,8 @@ import {
 } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { PlayIcon } from "@heroicons/react/24/solid";
+import { HeartIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { PauseIcon } from "@heroicons/react/20/solid";
-
-interface Song {
-    id: string;
-    imageUrl: string;
-    name: string;
-    audioUrl: string;
-    artistName: string;
-}
 
 export default function Card({
     id,
@@ -31,6 +23,12 @@ export default function Card({
         (state: RootState) => state.songs.activeSong
     );
     const isPlaying = useSelector((state: RootState) => state.songs.isPlaying);
+    const [isSaved, setIsSaved] = useState<boolean>(() => {
+        const savedSongs = JSON.parse(
+            localStorage.getItem("savedSongs") || "[]"
+        );
+        return savedSongs.some((song: Song) => song.id === id);
+    });
 
     useEffect(() => {
         if (activeSong && activeSong.id === id && audioRef.current) {
@@ -63,30 +61,76 @@ export default function Card({
         }
     };
 
+    const handleSaveSong = () => {
+        // Retrieve the saved songs from local storage
+        const savedSongs = JSON.parse(
+            localStorage.getItem("savedSongs") || "[]"
+        );
+
+        const song = {
+            id,
+            imageUrl,
+            name,
+            audioUrl,
+            artistName,
+        };
+
+        if (isSaved) {
+            // Remove the song from saved songs
+            const updatedSavedSongs = savedSongs.filter(
+                (savedSong: Song) => savedSong.id !== id
+            );
+            localStorage.setItem(
+                "savedSongs",
+                JSON.stringify(updatedSavedSongs)
+            );
+            setIsSaved(false);
+        } else {
+            // Add the song to saved songs
+            savedSongs.push(song);
+            localStorage.setItem("savedSongs", JSON.stringify(savedSongs));
+            setIsSaved(true);
+        }
+    };
+
     return (
-        <div className="w-full flex flex-row justify-between items-center p-2 rounded-xl hover:bg-gray-800">
-            <div className="flex flex-row w-full gap-5 items-center">
+        <div className="w-full flex flex-row items-center justify-between p-2 rounded-xl hover:bg-gray-800">
+            <div className="flex flex-row gap-5 items-center">
                 <Image
-                    className="object-cover aspect-square rounded-md"
+                    className="object-cover w-16 h-16 md:w-20 md:h-20 rounded-md"
                     src={imageUrl}
                     alt="song-image"
-                    height={75}
-                    width={75}
+                    height={100}
+                    width={100}
                     loading="eager"
                 />
-                <div className="w-1/3">
-                    <span className="text-white text-sm mt-3 font-mono line-clamp-1">
+                <div>
+                    <span className="text-white text-sm font-mono line-clamp-2 md:line-clamp-1">
                         {name}
                     </span>
-                    <span className="text-white text-xs mt-3 font-mono line-clamp-1">
+                    <span className="hidden md:block text-white text-xs font-mono line-clamp-1">
                         {artistName}
                     </span>
                 </div>
             </div>
 
-            <div className="flex flex-row items-center">
+            <div className="ml-3 flex flex-row gap-x-5 md:gap-x-8 items-center">
                 <button
-                    className="mx-5 bg-white rounded-full p-2 shadow-2xl"
+                    id="save-song"
+                    aria-label="Save Song"
+                    className="rounded-full shadow-2xl"
+                    onClick={handleSaveSong}
+                >
+                    <HeartIcon
+                        className={`h-6 w-6 ${
+                            isSaved ? "text-red-500" : "text-white"
+                        }`}
+                    />
+                </button>
+                <button
+                    id="play-pause-button"
+                    aria-label="Play/Pause Button"
+                    className="bg-white rounded-full p-2 shadow-2xl"
                     onClick={playSong}
                 >
                     {activeSong && activeSong.id === id && isPlaying ? (
