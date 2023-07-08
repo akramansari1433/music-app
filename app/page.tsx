@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSongs, fetchMoreSongs } from "../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import Card from "@/components/Song";
+import Song from "@/components/Song";
 
 export default function Home() {
     const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +48,7 @@ export default function Home() {
                 <div>
                     <div className="flex flex-col">
                         {songs.map((song, idx) => (
-                            <Card key={idx} {...song} />
+                            <Song key={idx} {...song} />
                         ))}
                     </div>
 

@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/components/Song";
+import Song from "@/components/Song";
 import { RootState } from "@/store/store";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,7 +26,7 @@ export default function SavedSongs() {
             <div>
                 <div className="flex flex-col">
                     {savedSongs.map((song, idx) => (
-                        <Card key={idx} {...song} />
+                        <Song key={idx} {...song} />
                     ))}
                 </div>
             </div>
