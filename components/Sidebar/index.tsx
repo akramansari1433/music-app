@@ -2,12 +2,19 @@
 import { RootState } from "@/store/store";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/solid";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 
 export default function Sidebar() {
     const { activeSong } = useSelector((state: RootState) => state.songs);
+    const { status } = useSession();
+
+    if (status === "unauthenticated" || status === "loading") {
+        return null;
+    }
+
     return (
         <div
             className={`hidden lg:fixed lg:top-3 ${

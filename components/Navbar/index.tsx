@@ -13,10 +13,17 @@ import { searchSongs } from "@/slices/songsSlice";
 import { debounce } from "lodash";
 import { HeartIcon, HomeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { status, data } = useSession();
+
+    if (status === "unauthenticated" || status === "loading") {
+        return null;
+    }
 
     const debouncedSearch = debounce((searchValue) => {
         dispatch(searchSongs(searchValue));
@@ -150,15 +157,21 @@ export default function Navbar() {
                             {/* Profile dropdown */}
                             <Menu as="div" className="relative">
                                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                                    <div className="bg-black text-white rounded-full p-2">
-                                        AA
-                                    </div>
+                                    {data?.user?.image && (
+                                        <Image
+                                            className="rounded-full"
+                                            src={data.user.image}
+                                            alt="profile pic"
+                                            height={40}
+                                            width={40}
+                                        />
+                                    )}
                                     <span className="hidden lg:flex lg:items-center">
                                         <span
                                             className="ml-4 text-sm font-semibold leading-6 text-white"
                                             aria-hidden="true"
                                         >
-                                            Akram
+                                            {data?.user?.name?.split(" ")[0]}
                                         </span>
                                         <ChevronDownIcon
                                             className="ml-2 h-5 w-5 text-gray-400"
@@ -177,21 +190,15 @@ export default function Navbar() {
                                 >
                                     <Menu.Items className="absolute right-0 z-50 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                         <Menu.Item>
-                                            {({ active }) => (
-                                                <a
-                                                    href={"/#"}
-                                                    className={`
-                                                        ${
-                                                            active
-                                                                ? "bg-gray-50"
-                                                                : ""
-                                                        }
+                                            <button
+                                                onClick={() => signOut()}
+                                                className={`
+                                                        
                                                          block px-3 py-1 text-sm leading-6 text-gray-900
                                                     `}
-                                                >
-                                                    Sign out
-                                                </a>
-                                            )}
+                                            >
+                                                Sign out
+                                            </button>
                                         </Menu.Item>
                                     </Menu.Items>
                                 </Transition>
