@@ -43,7 +43,9 @@ export default function Home() {
             } transition-all duration-300 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5`}
         >
             {loading ? (
-                <span className="text-white font-mono">Loading songs...</span>
+                <span className="text-white font-mono text-center">
+                    Loading songs...
+                </span>
             ) : (
                 <div>
                     <div className="flex flex-col">
@@ -54,7 +56,7 @@ export default function Home() {
 
                     <div ref={containerRef} className="text-center">
                         <span className="text-white font-mono">
-                            Loading more songs...
+                            Loading songs...
                         </span>
                     </div>
                 </div>
