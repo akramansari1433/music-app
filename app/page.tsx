@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSongs, fetchMoreSongs } from "../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import Card from "@/components/Card";
+import Card from "@/components/Song";
 
 export default function Home() {
     const dispatch = useDispatch<AppDispatch>();

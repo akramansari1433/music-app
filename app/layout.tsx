@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
-import MusicPlayer from "@/components/MusicPlayer";
+import MusicPlayer from "@/components/Player";
 import { Providers } from "./provider";
 
 export const metadata = {
