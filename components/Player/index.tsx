@@ -1,5 +1,5 @@
 "use client";
-import { setActiveSongProgress, setPlaying } from "@/slices/songsSlice";
+import { setPlaying } from "@/slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { PauseIcon, SpeakerWaveIcon, PlayIcon } from "@heroicons/react/20/solid";
 import { SpeakerXMarkIcon } from "@heroicons/react/24/solid";
@@ -12,6 +12,7 @@ export default function MusicPlayer() {
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [muted, setMuted] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
 
     function formatDuration(duration: number) {
         const minutes = Math.floor(duration / 60);
@@ -65,14 +66,17 @@ export default function MusicPlayer() {
                             </button>
                         </div>
                         <div className="md:fit flex w-full flex-row items-center gap-3">
-                            <span className="text-xs">{formatDuration(activeSong.progress)}</span>
+                            <span className="text-xs">{formatDuration(currentTime)}</span>
                             <input
                                 className="w-full accent-slate-500 md:w-36"
                                 type="range"
                                 min={0}
                                 max={activeSong.duration}
-                                value={activeSong.progress || 0}
-                                readOnly
+                                step={0.1}
+                                value={currentTime}
+                                onChange={(e) => {
+                                    audioRef.current!.currentTime = Number(e.target.value);
+                                }}
                             />
                             <span className="text-xs">{formatDuration(activeSong.duration)}</span>
                         </div>
@@ -102,8 +106,11 @@ export default function MusicPlayer() {
                     <audio
                         ref={audioRef}
                         src={activeSong.audioUrl}
-                        onEnded={() => dispatch(setPlaying(false))}
-                        onTimeUpdate={() => dispatch(setActiveSongProgress(audioRef.current?.currentTime))}
+                        onEnded={() => {
+                            dispatch(setPlaying(false));
+                            audioRef.current!.currentTime = 0;
+                        }}
+                        onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime!)}
                         muted={muted}
                     ></audio>
                 </div>

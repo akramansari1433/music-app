@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { onSaveSong, setActiveSong, setActiveSongProgress, setPlaying } from "../../slices/songsSlice";
+import { onSaveSong, setActiveSong, setPlaying } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { HeartIcon, PlayIcon } from "@heroicons/react/24/solid";

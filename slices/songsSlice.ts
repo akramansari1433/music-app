@@ -60,14 +60,6 @@ const songsSlice = createSlice({
         setPlaying: (state, action) => {
             state.isPlaying = action.payload;
         },
-        setActiveSongProgress: (state, action) => {
-            if (state.activeSong) {
-                state.activeSong = {
-                    ...state.activeSong,
-                    progress: action.payload,
-                };
-            }
-        },
         getSavedSongs: (state) => {
             const savedSongsData = JSON.parse(localStorage.getItem("savedSongs") || "[]");
             state.savedSongs = savedSongsData;
@@ -114,5 +106,5 @@ const songsSlice = createSlice({
     },
 });
 
-export const { setActiveSong, setPlaying, setActiveSongProgress, getSavedSongs, onSaveSong } = songsSlice.actions;
+export const { setActiveSong, setPlaying, getSavedSongs, onSaveSong } = songsSlice.actions;
 export default songsSlice.reducer;
