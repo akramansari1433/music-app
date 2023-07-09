@@ -3,10 +3,7 @@ import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-    ChevronDownIcon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { searchSongs } from "@/slices/songsSlice";
@@ -50,10 +47,7 @@ export default function Navbar() {
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
-                    <div
-                        className="h-6 w-px bg-gray-900/10 lg:hidden"
-                        aria-hidden="true"
-                    />
+                    <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
                     <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                         <form className="relative flex flex-1">
@@ -92,10 +86,7 @@ export default function Navbar() {
                                         >
                                             {data?.user?.name?.split(" ")[0]}
                                         </span>
-                                        <ChevronDownIcon
-                                            className="ml-2 h-5 w-5 text-gray-400"
-                                            aria-hidden="true"
-                                        />
+                                        <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </span>
                                 </Menu.Button>
                                 <Transition
@@ -127,11 +118,7 @@ export default function Navbar() {
                 </div>
             </div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
-                <Dialog
-                    as="div"
-                    className="relative z-50 lg:hidden"
-                    onClose={setSidebarOpen}
-                >
+                <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                     <Transition.Child
                         as={Fragment}
                         enter="transition-opacity ease-linear duration-300"
@@ -168,47 +155,32 @@ export default function Navbar() {
                                         <button
                                             type="button"
                                             className="-m-2.5 p-2.5"
-                                            onClick={() =>
-                                                setSidebarOpen(false)
-                                            }
+                                            onClick={() => setSidebarOpen(false)}
                                         >
-                                            <XMarkIcon
-                                                className="h-6 w-6 text-white"
-                                                aria-hidden="true"
-                                            />
+                                            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </Transition.Child>
                                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 py-4 ring-1 ring-white/10">
                                     <div className="h-80 flex items-center justify-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
-                                        <h1 className="text-white text-4xl font-bold font-mono">
-                                            Music App
-                                        </h1>
+                                        <h1 className="text-white text-4xl font-bold">Music App</h1>
                                     </div>
                                     <div className="flex flex-col gap-y-3 py-3">
                                         <Link
                                             className="text-white flex flex-row items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-700"
                                             href="/"
-                                            onClick={() =>
-                                                setSidebarOpen(false)
-                                            }
+                                            onClick={() => setSidebarOpen(false)}
                                         >
                                             <HomeIcon className="h-6 w-6" />
-                                            <span className="text-xl">
-                                                Home
-                                            </span>
+                                            <span className="text-xl">Home</span>
                                         </Link>
                                         <Link
                                             className="text-white flex flex-row items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-700"
                                             href="/saved"
-                                            onClick={() =>
-                                                setSidebarOpen(false)
-                                            }
+                                            onClick={() => setSidebarOpen(false)}
                                         >
                                             <HeartIcon className="h-6 w-6" />
-                                            <span className="text-xl">
-                                                Saved
-                                            </span>
+                                            <span className="text-xl">Saved</span>
                                         </Link>
                                     </div>
                                 </div>

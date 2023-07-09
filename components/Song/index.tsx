@@ -1,32 +1,18 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import {
-    setActiveSong,
-    setActiveSongProgress,
-    setPlaying,
-} from "../../slices/songsSlice";
+import { setActiveSong, setActiveSongProgress, setPlaying } from "../../slices/songsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { HeartIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { PauseIcon } from "@heroicons/react/20/solid";
 
-export default function Card({
-    id,
-    imageUrl,
-    name,
-    audioUrl,
-    artistName,
-}: Song) {
+export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song) {
     const dispatch = useDispatch();
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const activeSong = useSelector(
-        (state: RootState) => state.songs.activeSong
-    );
+    const activeSong = useSelector((state: RootState) => state.songs.activeSong);
     const isPlaying = useSelector((state: RootState) => state.songs.isPlaying);
     const [isSaved, setIsSaved] = useState<boolean>(() => {
-        const savedSongs = JSON.parse(
-            localStorage.getItem("savedSongs") || "[]"
-        );
+        const savedSongs = JSON.parse(localStorage.getItem("savedSongs") || "[]");
         return savedSongs.some((song: Song) => song.id === id);
     });
 
@@ -63,9 +49,7 @@ export default function Card({
 
     const handleSaveSong = () => {
         // Retrieve the saved songs from local storage
-        const savedSongs = JSON.parse(
-            localStorage.getItem("savedSongs") || "[]"
-        );
+        const savedSongs = JSON.parse(localStorage.getItem("savedSongs") || "[]");
 
         const song = {
             id,
@@ -77,13 +61,8 @@ export default function Card({
 
         if (isSaved) {
             // Remove the song from saved songs
-            const updatedSavedSongs = savedSongs.filter(
-                (savedSong: Song) => savedSong.id !== id
-            );
-            localStorage.setItem(
-                "savedSongs",
-                JSON.stringify(updatedSavedSongs)
-            );
+            const updatedSavedSongs = savedSongs.filter((savedSong: Song) => savedSong.id !== id);
+            localStorage.setItem("savedSongs", JSON.stringify(updatedSavedSongs));
             setIsSaved(false);
         } else {
             // Add the song to saved songs
@@ -105,12 +84,8 @@ export default function Card({
                     loading="eager"
                 />
                 <div>
-                    <span className="text-white text-sm font-mono line-clamp-2 md:line-clamp-1">
-                        {name}
-                    </span>
-                    <span className="hidden md:block text-white text-xs font-mono line-clamp-1">
-                        {artistName}
-                    </span>
+                    <span className="text-white text-sm line-clamp-2 md:line-clamp-1">{name}</span>
+                    <span className="hidden md:block text-white text-xs line-clamp-1">{artistName}</span>
                 </div>
             </div>
 
@@ -121,11 +96,7 @@ export default function Card({
                     className="rounded-full shadow-2xl"
                     onClick={handleSaveSong}
                 >
-                    <HeartIcon
-                        className={`h-6 w-6 ${
-                            isSaved ? "text-red-500" : "text-white"
-                        }`}
-                    />
+                    <HeartIcon className={`h-6 w-6 ${isSaved ? "text-red-500" : "text-white"}`} />
                 </button>
                 <button
                     id={id + `-play-pause-button`}
@@ -145,11 +116,7 @@ export default function Card({
                     ref={audioRef}
                     src={audioUrl}
                     onEnded={() => dispatch(setPlaying(false))}
-                    onTimeUpdate={() =>
-                        dispatch(
-                            setActiveSongProgress(audioRef.current?.currentTime)
-                        )
-                    }
+                    onTimeUpdate={() => dispatch(setActiveSongProgress(audioRef.current?.currentTime))}
                 ></audio>
             )}
         </div>

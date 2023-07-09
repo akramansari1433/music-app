@@ -49,21 +49,17 @@ export default function Home() {
             ${activeSong ? "bottom-24" : "bottom-3"} 
             ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
         >
-            {loading ? (
-                <span className="text-white font-mono text-center">Loading songs...</span>
-            ) : (
-                <div>
-                    <div className="flex flex-col">
-                        {songs.map((song, idx) => (
-                            <Song key={idx} {...song} />
-                        ))}
-                    </div>
-
-                    <div ref={containerRef} className="text-center">
-                        <span className="text-white font-mono">Loading more songs...</span>
-                    </div>
+            <div>
+                <div className="flex flex-col">
+                    {songs.map((song, idx) => (
+                        <Song key={idx} {...song} />
+                    ))}
                 </div>
-            )}
+
+                <div ref={containerRef} className="text-center">
+                    {loading && <span className="text-white">Loading songs...</span>}
+                </div>
+            </div>
         </main>
     );
 }
