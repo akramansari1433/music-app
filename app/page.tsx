@@ -45,11 +45,9 @@ export default function Home() {
 
     return (
         <main
-            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
-                activeSong ? "bottom-24" : "bottom-3"
-            }  inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5 ${
-                status === "loading" ? "opacity-0" : ""
-            } transition-all duration-300`}
+            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5 
+            ${activeSong ? "bottom-24" : "bottom-3"} 
+            ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
         >
             {loading ? (
                 <span className="text-white font-mono text-center">Loading songs...</span>
