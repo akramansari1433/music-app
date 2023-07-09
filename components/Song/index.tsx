@@ -8,18 +8,7 @@ import { PauseIcon } from "@heroicons/react/20/solid";
 
 export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song) {
     const dispatch = useDispatch();
-    const audioRef = useRef<HTMLAudioElement | null>(null);
     const { activeSong, isPlaying, savedSongs } = useSelector((state: RootState) => state.songs);
-
-    useEffect(() => {
-        if (activeSong && activeSong.id === id && audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.play();
-            } else {
-                audioRef.current.pause();
-            }
-        }
-    }, [isPlaying, activeSong, id]);
 
     const playSong = () => {
         if (activeSong && activeSong.id === id) {
@@ -43,10 +32,10 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
     };
 
     return (
-        <div className="w-full flex flex-row items-center justify-between p-2 rounded-xl hover:bg-gray-800">
-            <div className="flex flex-row gap-5 items-center">
+        <div className="flex w-full flex-row items-center justify-between rounded-xl p-2 hover:bg-gray-800">
+            <div className="flex flex-row items-center gap-5">
                 <Image
-                    className="object-cover w-16 h-16 md:w-20 md:h-20 rounded-md"
+                    className="h-16 w-16 rounded-md object-cover md:h-20 md:w-20"
                     src={imageUrl}
                     alt="song-image"
                     height={100}
@@ -54,12 +43,12 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                     loading="eager"
                 />
                 <div>
-                    <span className="text-white text-sm line-clamp-2 md:line-clamp-1">{name}</span>
-                    <span className="hidden md:block text-white text-xs line-clamp-1">{artistName}</span>
+                    <span className="line-clamp-2 text-sm text-white md:line-clamp-1">{name}</span>
+                    <span className="line-clamp-1 hidden text-xs text-white md:block">{artistName}</span>
                 </div>
             </div>
 
-            <div className="ml-3 flex flex-row gap-x-5 md:gap-x-8 items-center">
+            <div className="ml-3 flex flex-row items-center gap-x-5 md:gap-x-8">
                 <button
                     id={id + `-save-song`}
                     aria-label="Save Song"
@@ -85,7 +74,7 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                 <button
                     id={id + `-play-pause-button`}
                     aria-label="Play/Pause Button"
-                    className="bg-white rounded-full p-2 shadow-2xl"
+                    className="rounded-full bg-white p-2 shadow-2xl"
                     onClick={playSong}
                 >
                     {activeSong && activeSong.id === id && isPlaying ? (
@@ -95,14 +84,6 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                     )}
                 </button>
             </div>
-            {activeSong && activeSong.id === id && (
-                <audio
-                    ref={audioRef}
-                    src={audioUrl}
-                    onEnded={() => dispatch(setPlaying(false))}
-                    onTimeUpdate={() => dispatch(setActiveSongProgress(audioRef.current?.currentTime))}
-                ></audio>
-            )}
         </div>
     );
 }

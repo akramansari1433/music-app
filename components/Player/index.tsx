@@ -1,14 +1,15 @@
 "use client";
-import { setPlaying } from "@/slices/songsSlice";
+import { setActiveSongProgress, setPlaying } from "@/slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { PauseIcon, SpeakerWaveIcon, PlayIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function MusicPlayer() {
     const { activeSong, isPlaying } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch<AppDispatch>();
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     function formatDuration(duration: number) {
         const minutes = Math.floor(duration / 60);
@@ -19,6 +20,16 @@ export default function MusicPlayer() {
 
         return `${formattedMinutes}:${formattedSeconds}`;
     }
+
+    useEffect(() => {
+        if (activeSong && audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isPlaying, activeSong]);
 
     return (
         <div
@@ -66,8 +77,22 @@ export default function MusicPlayer() {
                     </div>
                     <div className="hidden h-full w-64 flex-row items-center gap-3 md:flex">
                         <SpeakerWaveIcon className="h-6 w-6" />
-                        <div className="h-1.5 w-[70%] rounded-md bg-gray-300"></div>
+                        <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step={0.1}
+                            onChange={(e) => {
+                                audioRef.current!.volume = Number(e.target.value);
+                            }}
+                        />
                     </div>
+                    <audio
+                        ref={audioRef}
+                        src={activeSong.audioUrl}
+                        onEnded={() => dispatch(setPlaying(false))}
+                        onTimeUpdate={() => dispatch(setActiveSongProgress(audioRef.current?.currentTime))}
+                    ></audio>
                 </div>
             )}
         </div>
