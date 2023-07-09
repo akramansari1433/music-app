@@ -11,7 +11,7 @@ export default function Sidebar() {
     const { activeSong } = useSelector((state: RootState) => state.songs);
     const { status } = useSession();
 
-    if (status === "unauthenticated" || status === "loading") {
+    if (status === "unauthenticated") {
         return null;
     }
 
@@ -19,11 +19,13 @@ export default function Sidebar() {
         <div
             className={`hidden lg:fixed lg:top-3 ${
                 activeSong ? "lg:bottom-24" : "lg:bottom-3"
-            } duration-300 transition-all lg:inset-x-3 lg:z-50 lg:flex lg:w-72 lg:flex-col`}
+            }
+            ${status === "loading" ? "lg:w-0 opacity-0" : "lg:w-72 opacity-100"}
+             duration-500 transition-all lg:inset-x-3 lg:z-50 lg:flex lg:flex-col`}
         >
             <div className="flex flex-col grow gap-y-5 overflow-y-auto rounded-xl bg-gray-800 p-3">
                 <div className="h-80 flex items-center justify-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
-                    <h1 className="text-white text-4xl font-bold font-mono">
+                    <h1 className="text-white text-4xl font-bold font-mono line-clamp-1">
                         Music App
                     </h1>
                 </div>

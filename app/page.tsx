@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-    const { data: session } = useSession({
+    const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
             redirect("/login");
@@ -46,7 +46,9 @@ export default function Home() {
 
     return (
         <main
-            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
+            className={`${
+                status === "loading" ? "top-3 " : ""
+            }lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
                 activeSong ? "bottom-24" : "bottom-3 z-10"
             } transition-all duration-300 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5`}
         >

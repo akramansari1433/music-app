@@ -21,7 +21,7 @@ export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { status, data } = useSession();
 
-    if (status === "unauthenticated" || status === "loading") {
+    if (status === "unauthenticated") {
         return null;
     }
 
@@ -35,7 +35,97 @@ export default function Navbar() {
     };
 
     return (
-        <div className="fixed top-3 inset-x-3 z-50">
+        <div>
+            <div className="lg:pl-72 lg:ml-3 fixed  top-3 inset-x-3 z-50">
+                <div
+                    className={`${
+                        status === "loading" ? "h-0 opacity-0" : "h-16"
+                    }
+                    z-40 flex items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 duration-300 transition-all`}
+                >
+                    <button
+                        type="button"
+                        className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                        onClick={() => setSidebarOpen(true)}
+                    >
+                        <span className="sr-only">Open sidebar</span>
+                        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+
+                    <div
+                        className="h-6 w-px bg-gray-900/10 lg:hidden"
+                        aria-hidden="true"
+                    />
+
+                    <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+                        <form className="relative flex flex-1">
+                            <MagnifyingGlassIcon
+                                className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-white"
+                                aria-hidden="true"
+                            />
+                            <input
+                                id="search-field"
+                                className="block h-full w-full border-none py-0 pl-8 pr-0 bg-transparent text-white placeholder:text-gray-200"
+                                placeholder="Search..."
+                                type="search"
+                                name="search"
+                                onChange={handleSearch}
+                            />
+                        </form>
+                        <div className="flex items-center gap-x-4 lg:gap-x-6">
+                            {/* Profile dropdown */}
+                            <Menu as="div" className="relative">
+                                <Menu.Button className="-m-1.5 flex items-center p-1.5">
+                                    {data?.user?.image && (
+                                        <Image
+                                            className="rounded-full"
+                                            src={data.user.image}
+                                            alt="profile pic"
+                                            height={40}
+                                            width={40}
+                                        />
+                                    )}
+                                    <span className="hidden lg:flex lg:items-center">
+                                        <span
+                                            className="ml-4 text-sm font-semibold leading-6 text-white"
+                                            aria-hidden="true"
+                                        >
+                                            {data?.user?.name?.split(" ")[0]}
+                                        </span>
+                                        <ChevronDownIcon
+                                            className="ml-2 h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                </Menu.Button>
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute right-0 z-50 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                                        <Menu.Item>
+                                            <button
+                                                onClick={() => signOut()}
+                                                className={`
+                                                        
+                                                         block px-3 py-1 text-sm leading-6 text-gray-900
+                                                    `}
+                                            >
+                                                Sign out
+                                            </button>
+                                        </Menu.Item>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog
                     as="div"
@@ -121,92 +211,6 @@ export default function Navbar() {
                     </div>
                 </Dialog>
             </Transition.Root>
-
-            <div className="lg:pl-72 lg:ml-3">
-                <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-                    <button
-                        type="button"
-                        className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-                        onClick={() => setSidebarOpen(true)}
-                    >
-                        <span className="sr-only">Open sidebar</span>
-                        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                    </button>
-
-                    <div
-                        className="h-6 w-px bg-gray-900/10 lg:hidden"
-                        aria-hidden="true"
-                    />
-
-                    <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                        <form className="relative flex flex-1">
-                            <MagnifyingGlassIcon
-                                className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-white"
-                                aria-hidden="true"
-                            />
-                            <input
-                                id="search-field"
-                                className="block h-full w-full border-none py-0 pl-8 pr-0 bg-transparent text-white placeholder:text-gray-200"
-                                placeholder="Search..."
-                                type="search"
-                                name="search"
-                                onChange={handleSearch}
-                            />
-                        </form>
-                        <div className="flex items-center gap-x-4 lg:gap-x-6">
-                            {/* Profile dropdown */}
-                            <Menu as="div" className="relative">
-                                <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                                    {data?.user?.image && (
-                                        <Image
-                                            className="rounded-full"
-                                            src={data.user.image}
-                                            alt="profile pic"
-                                            height={40}
-                                            width={40}
-                                        />
-                                    )}
-                                    <span className="hidden lg:flex lg:items-center">
-                                        <span
-                                            className="ml-4 text-sm font-semibold leading-6 text-white"
-                                            aria-hidden="true"
-                                        >
-                                            {data?.user?.name?.split(" ")[0]}
-                                        </span>
-                                        <ChevronDownIcon
-                                            className="ml-2 h-5 w-5 text-gray-400"
-                                            aria-hidden="true"
-                                        />
-                                    </span>
-                                </Menu.Button>
-                                <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95"
-                                >
-                                    <Menu.Items className="absolute right-0 z-50 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                                        <Menu.Item>
-                                            <button
-                                                onClick={() => signOut()}
-                                                className={`
-                                                        
-                                                         block px-3 py-1 text-sm leading-6 text-gray-900
-                                                    `}
-                                            >
-                                                Sign out
-                                            </button>
-                                        </Menu.Item>
-                                    </Menu.Items>
-                                </Transition>
-                            </Menu>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }
