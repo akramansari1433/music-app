@@ -1,8 +1,14 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const LoginPage: React.FC = () => {
+    const { status } = useSession();
+    if (status === "authenticated") {
+        return redirect("/");
+    }
+
     return (
         <div>
             <div className="flex flex-col items-center justify-center h-screen">

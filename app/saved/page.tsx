@@ -1,12 +1,20 @@
 "use client";
 import Song from "@/components/Song";
 import { RootState } from "@/store/store";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function SavedSongs() {
     const { activeSong } = useSelector((state: RootState) => state.songs);
     const [savedSongs, setSavedSongs] = useState<Song[]>([]);
+    const { data: session } = useSession({
+        required: true,
+        onUnauthenticated() {
+            redirect("/login");
+        },
+    });
 
     useEffect(() => {
         if (typeof window !== "undefined") {
