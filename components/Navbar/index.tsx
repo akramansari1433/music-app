@@ -76,12 +76,12 @@ export default function Navbar() {
                                 <Menu.Button className="-m-1.5 flex items-center p-1.5">
                                     {data?.user?.image && (
                                         <Image
-                                            className="rounded-full"
+                                            className="rounded-full object-cover"
                                             src={data.user.image}
                                             alt="profile pic"
                                             height={40}
                                             width={40}
-                                            loading="eager"
+                                            loading="lazy"
                                         />
                                     )}
                                     <span className="hidden lg:flex lg:items-center">
