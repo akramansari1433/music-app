@@ -38,6 +38,7 @@ interface SongsState {
         progress: number;
     } | null;
     isPlaying: boolean;
+    savedSongs: Song[];
 }
 
 const initialState: SongsState = {
@@ -46,6 +47,7 @@ const initialState: SongsState = {
     error: null,
     activeSong: null,
     isPlaying: false,
+    savedSongs: [],
 };
 
 const songsSlice = createSlice({
@@ -66,6 +68,21 @@ const songsSlice = createSlice({
                 };
             }
         },
+        getSavedSongs: (state) => {
+            const savedSongsData = JSON.parse(localStorage.getItem("savedSongs") || "[]");
+            state.savedSongs = savedSongsData;
+        },
+        onSaveSong: (state, action) => {
+            const { id } = action.payload;
+            const existingSongIndex = state.savedSongs.findIndex((song) => song.id === id);
+
+            if (existingSongIndex !== -1) {
+                state.savedSongs.splice(existingSongIndex, 1);
+            } else {
+                state.savedSongs.push(action.payload);
+            }
+            localStorage.setItem("savedSongs", JSON.stringify(state.savedSongs));
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -76,6 +93,7 @@ const songsSlice = createSlice({
             .addCase(fetchSongs.fulfilled, (state, action) => {
                 state.loading = false;
                 state.songs.push(...action.payload);
+                songsSlice.caseReducers.getSavedSongs(state);
             })
             .addCase(fetchSongs.rejected, (state, action) => {
                 state.loading = false;
@@ -96,5 +114,5 @@ const songsSlice = createSlice({
     },
 });
 
-export const { setActiveSong, setPlaying, setActiveSongProgress } = songsSlice.actions;
+export const { setActiveSong, setPlaying, setActiveSongProgress, getSavedSongs, onSaveSong } = songsSlice.actions;
 export default songsSlice.reducer;
