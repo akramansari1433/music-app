@@ -1,33 +1,32 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSongs, fetchMoreSongs } from "../slices/songsSlice";
+import { fetchSongs } from "../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import Song from "@/components/Song";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-    const { data: session, status } = useSession({
+    const { status } = useSession({
         required: true,
         onUnauthenticated() {
             redirect("/login");
         },
     });
     const dispatch = useDispatch<AppDispatch>();
-    const { songs, loading, activeSong } = useSelector(
-        (state: RootState) => state.songs
-    );
+    const { songs, loading, activeSong } = useSelector((state: RootState) => state.songs);
+    const [offset, setOffset] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        dispatch(fetchSongs());
-    }, [dispatch]);
+        dispatch(fetchSongs(offset));
+    }, [dispatch, offset]);
 
     function onIntersection(enteries: IntersectionObserverEntry[]) {
         const firstEntry = enteries[0];
         if (firstEntry.isIntersecting) {
-            dispatch(fetchMoreSongs(songs.length));
+            setOffset((prev) => prev + 1);
         }
     }
 
@@ -53,9 +52,7 @@ export default function Home() {
             } transition-all duration-300`}
         >
             {loading ? (
-                <span className="text-white font-mono text-center">
-                    Loading songs...
-                </span>
+                <span className="text-white font-mono text-center">Loading songs...</span>
             ) : (
                 <div>
                     <div className="flex flex-col">
@@ -65,9 +62,7 @@ export default function Home() {
                     </div>
 
                     <div ref={containerRef} className="text-center">
-                        <span className="text-white font-mono">
-                            Loading songs...
-                        </span>
+                        <span className="text-white font-mono">Loading more songs...</span>
                     </div>
                 </div>
             )}
