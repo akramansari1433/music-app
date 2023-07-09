@@ -5,8 +5,8 @@ import React from "react";
 const LoginPage: React.FC = () => {
     return (
         <div>
-            <div className="flex flex-col items-center justify-center my-10">
-                <div className="h-80 w-80 flex justify-center items-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
+            <div className="flex flex-col items-center justify-center h-screen">
+                <div className="h-72 w-72 flex justify-center items-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
                     <h1 className="text-white text-4xl font-bold font-mono">
                         Music App
                     </h1>
