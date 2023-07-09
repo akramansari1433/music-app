@@ -13,20 +13,16 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
         if (activeSong && activeSong.id === id) {
             dispatch(setPlaying(!isPlaying));
         } else {
-            const audioElement = new Audio(audioUrl);
-            audioElement.addEventListener("loadedmetadata", () => {
-                dispatch(
-                    setActiveSong({
-                        id,
-                        imageUrl,
-                        name,
-                        audioUrl,
-                        artistName,
-                        duration: audioElement.duration,
-                    })
-                );
-                dispatch(setPlaying(true));
-            });
+            dispatch(
+                setActiveSong({
+                    id,
+                    imageUrl,
+                    name,
+                    audioUrl,
+                    artistName,
+                })
+            );
+            dispatch(setPlaying(true));
         }
     };
 

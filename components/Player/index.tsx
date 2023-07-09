@@ -71,14 +71,14 @@ export default function MusicPlayer() {
                                 className="w-full accent-slate-500 md:w-36"
                                 type="range"
                                 min={0}
-                                max={activeSong.duration}
+                                max={audioRef.current?.duration!}
                                 step={0.1}
                                 value={currentTime}
                                 onChange={(e) => {
                                     audioRef.current!.currentTime = Number(e.target.value);
                                 }}
                             />
-                            <span className="text-xs">{formatDuration(activeSong.duration)}</span>
+                            <span className="text-xs">{formatDuration(audioRef.current?.duration!)}</span>
                         </div>
                     </div>
                     <div className="hidden h-full w-64 flex-row items-center gap-3 md:flex">

@@ -28,15 +28,7 @@ interface SongsState {
     songs: Song[];
     loading: boolean;
     error: string | null;
-    activeSong: {
-        id: string;
-        imageUrl: string;
-        name: string;
-        audioUrl: string;
-        artistName: string;
-        duration: number;
-        progress: number;
-    } | null;
+    activeSong: Song | null;
     isPlaying: boolean;
     savedSongs: Song[];
 }
