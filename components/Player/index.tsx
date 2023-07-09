@@ -2,14 +2,16 @@
 import { setActiveSongProgress, setPlaying } from "@/slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { PauseIcon, SpeakerWaveIcon, PlayIcon } from "@heroicons/react/20/solid";
+import { SpeakerXMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function MusicPlayer() {
     const { activeSong, isPlaying } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [muted, setMuted] = useState(false);
 
     function formatDuration(duration: number) {
         const minutes = Math.floor(duration / 60);
@@ -65,7 +67,7 @@ export default function MusicPlayer() {
                         <div className="md:fit flex w-full flex-row items-center gap-3">
                             <span className="text-xs">{formatDuration(activeSong.progress)}</span>
                             <input
-                                className="w-full md:w-36"
+                                className="w-full accent-slate-500 md:w-36"
                                 type="range"
                                 min={0}
                                 max={activeSong.duration}
@@ -76,7 +78,17 @@ export default function MusicPlayer() {
                         </div>
                     </div>
                     <div className="hidden h-full w-64 flex-row items-center gap-3 md:flex">
-                        <SpeakerWaveIcon className="h-6 w-6" />
+                        <button
+                            id="volume-mute-unmute"
+                            aria-label="Volume mute/unmute"
+                            onClick={() => setMuted(!muted)}
+                        >
+                            {muted || audioRef.current?.volume === 0 ? (
+                                <SpeakerXMarkIcon className="h-6 w-6" />
+                            ) : (
+                                <SpeakerWaveIcon className="h-6 w-6" />
+                            )}
+                        </button>
                         <input
                             type="range"
                             min={0}
@@ -92,6 +104,7 @@ export default function MusicPlayer() {
                         src={activeSong.audioUrl}
                         onEnded={() => dispatch(setPlaying(false))}
                         onTimeUpdate={() => dispatch(setActiveSongProgress(audioRef.current?.currentTime))}
+                        muted={muted}
                     ></audio>
                 </div>
             )}
