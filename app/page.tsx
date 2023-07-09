@@ -46,11 +46,11 @@ export default function Home() {
 
     return (
         <main
-            className={`${
-                status === "loading" ? "opacity-0" : ""
-            }lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
+            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 ${
                 activeSong ? "bottom-24" : "bottom-3"
-            } transition-all duration-300 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5`}
+            }  inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5 ${
+                status === "loading" ? "opacity-0" : ""
+            } transition-all duration-300`}
         >
             {loading ? (
                 <span className="text-white font-mono text-center">
