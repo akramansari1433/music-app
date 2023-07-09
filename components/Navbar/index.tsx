@@ -81,6 +81,7 @@ export default function Navbar() {
                                             alt="profile pic"
                                             height={40}
                                             width={40}
+                                            loading="eager"
                                         />
                                     )}
                                     <span className="hidden lg:flex lg:items-center">
