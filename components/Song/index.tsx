@@ -116,7 +116,7 @@ export default function Card({
 
             <div className="ml-3 flex flex-row gap-x-5 md:gap-x-8 items-center">
                 <button
-                    id="save-song"
+                    id={id + `-save-song`}
                     aria-label="Save Song"
                     className="rounded-full shadow-2xl"
                     onClick={handleSaveSong}
@@ -128,7 +128,7 @@ export default function Card({
                     />
                 </button>
                 <button
-                    id="play-pause-button"
+                    id={id + `-play-pause-button`}
                     aria-label="Play/Pause Button"
                     className="bg-white rounded-full p-2 shadow-2xl"
                     onClick={playSong}
