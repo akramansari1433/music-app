@@ -20,8 +20,8 @@ export default function Sidebar() {
             className={`hidden lg:fixed lg:top-3 ${
                 activeSong ? "lg:bottom-24" : "lg:bottom-3"
             }
-            ${status === "loading" ? "lg:w-0 opacity-0" : "lg:w-72 opacity-100"}
-             duration-500 transition-all lg:inset-x-3 lg:z-50 lg:flex lg:flex-col`}
+            ${status === "loading" ? "opacity-0" : ""}
+            lg:w-72 duration-300 transition-all lg:inset-x-3 lg:z-50 lg:flex lg:flex-col`}
         >
             <div className="flex flex-col grow gap-y-5 overflow-y-auto rounded-xl bg-gray-800 p-3">
                 <div className="h-80 flex items-center justify-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">

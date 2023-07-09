@@ -38,10 +38,8 @@ export default function Navbar() {
         <div>
             <div className="lg:pl-72 lg:ml-3 fixed  top-3 inset-x-3 z-50">
                 <div
-                    className={`${
-                        status === "loading" ? "h-0 opacity-0" : "h-16"
-                    }
-                    z-40 flex items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 duration-300 transition-all`}
+                    className={`${status === "loading" ? "opacity-0" : ""}
+                    z-40 h-16 flex items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 duration-300 transition-all`}
                 >
                     <button
                         type="button"
