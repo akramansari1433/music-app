@@ -33,10 +33,10 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className="lg:pl-72 lg:ml-3 fixed  top-3 inset-x-3 z-50">
+            <div className="fixed inset-x-3 top-3  z-50 lg:ml-3 lg:pl-72">
                 <div
                     className={`${status === "loading" ? "opacity-0" : ""}
-                    z-40 h-16 flex items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 duration-300 transition-all`}
+                    z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm transition-all duration-300 sm:gap-x-6 sm:px-6 lg:px-8`}
                 >
                     <button
                         type="button"
@@ -57,7 +57,7 @@ export default function Navbar() {
                             />
                             <input
                                 id="search-field"
-                                className="block h-full w-full border-none py-0 pl-8 pr-0 bg-transparent text-white placeholder:text-gray-200"
+                                className="block h-full w-full border-none bg-transparent py-0 pl-8 pr-0 text-white placeholder:text-gray-200"
                                 placeholder="Search..."
                                 type="search"
                                 name="search"
@@ -102,10 +102,7 @@ export default function Navbar() {
                                         <Menu.Item>
                                             <button
                                                 onClick={() => signOut()}
-                                                className={`
-                                                        
-                                                         block px-3 py-1 text-sm leading-6 text-gray-900
-                                                    `}
+                                                className={`block px-3 py-1 text-sm leading-6 text-gray-900`}
                                             >
                                                 Sign out
                                             </button>
@@ -128,7 +125,7 @@ export default function Navbar() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 backdrop-blur-md filter" />
+                        <div className="fixed inset-0 filter backdrop-blur-md" />
                     </Transition.Child>
 
                     <div className="fixed inset-0 flex">
@@ -162,12 +159,12 @@ export default function Navbar() {
                                     </div>
                                 </Transition.Child>
                                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 py-4 ring-1 ring-white/10">
-                                    <div className="h-80 flex items-center justify-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
-                                        <h1 className="text-white text-4xl font-bold">Music App</h1>
+                                    <div className="flex h-80 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-red-500">
+                                        <h1 className="text-4xl font-bold text-white">Music App</h1>
                                     </div>
                                     <div className="flex flex-col gap-y-3 py-3">
                                         <Link
-                                            className="text-white flex flex-row items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-700"
+                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 text-white hover:bg-gray-700"
                                             href="/"
                                             onClick={() => setSidebarOpen(false)}
                                         >
@@ -175,7 +172,7 @@ export default function Navbar() {
                                             <span className="text-xl">Home</span>
                                         </Link>
                                         <Link
-                                            className="text-white flex flex-row items-center gap-3 py-2 px-3 rounded-md hover:bg-gray-700"
+                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 text-white hover:bg-gray-700"
                                             href="/saved"
                                             onClick={() => setSidebarOpen(false)}
                                         >

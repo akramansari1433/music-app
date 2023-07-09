@@ -23,7 +23,7 @@ export default function SavedSongs() {
 
     return (
         <main
-            className={`lg:ml-[19.75rem] mx-3 my-1 fixed top-20 inset-x-0 overflow-auto bg-gradient-to-b from-gray-600 to-gray-900 rounded-lg p-2 md:p-5 
+            className={`fixed inset-x-0 top-20 mx-3 my-1 overflow-auto rounded-lg bg-gradient-to-b from-gray-600 to-gray-900 p-2 md:p-5 lg:ml-[19.75rem] 
             ${activeSong ? "bottom-24" : "bottom-3"} 
             ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
         >

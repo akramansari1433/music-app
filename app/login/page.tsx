@@ -11,13 +11,13 @@ const LoginPage: React.FC = () => {
 
     return (
         <div>
-            <div className="flex flex-col items-center justify-center h-screen">
-                <div className="h-72 w-72 flex justify-center items-center bg-gradient-to-r from-blue-500 to-red-500 rounded-xl">
-                    <h1 className="text-white text-4xl font-bold">Music App</h1>
+            <div className="flex h-screen flex-col items-center justify-center">
+                <div className="flex h-72 w-72 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-red-500">
+                    <h1 className="text-4xl font-bold text-white">Music App</h1>
                 </div>
                 <button
                     onClick={() => signIn("google", { callbackUrl: "/" })}
-                    className="text-white bg-blue-500 my-10 flex flex-row items-center gap-3 px-3 py-2 rounded-md"
+                    className="my-10 flex flex-row items-center gap-3 rounded-md bg-blue-500 px-3 py-2 text-white"
                 >
                     Login using
                     <svg className="h-6 w-6" viewBox="0 0 1024 1024" fill="currentColor" height="1em" width="1em">
