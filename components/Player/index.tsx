@@ -36,7 +36,7 @@ export default function MusicPlayer() {
 
     return (
         <div
-            className={`fixed bottom-0  w-full bg-black text-white ${
+            className={`fixed bottom-0  w-full dark:bg-black dark:text-white ${
                 activeSong ? "z-50 h-20" : "h-0"
             } overflow-hidden p-3 transition-all duration-300`}
         >
@@ -59,7 +59,7 @@ export default function MusicPlayer() {
                     <div className="flex w-full flex-col gap-2 md:w-fit">
                         <div className="flex flex-row items-center justify-center gap-5">
                             <button
-                                className="rounded-full bg-white p-2 text-black"
+                                className="rounded-full bg-black dark:bg-white p-2 text-white dark:text-black"
                                 onClick={() => dispatch(setPlaying(!isPlaying))}
                             >
                                 {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}

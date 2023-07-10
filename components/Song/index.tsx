@@ -27,7 +27,7 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
     };
 
     return (
-        <div className="flex w-full flex-row items-center justify-between rounded-xl p-2 hover:bg-gray-800">
+        <div className="flex w-full flex-row items-center justify-between rounded-xl p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
             <div className="flex flex-row items-center gap-5">
                 <Image
                     className="h-16 w-16 rounded-md object-cover md:h-20 md:w-20"
@@ -38,8 +38,8 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                     loading="eager"
                 />
                 <div>
-                    <span className="line-clamp-2 text-sm text-white md:line-clamp-1">{name}</span>
-                    <span className="line-clamp-1 hidden text-xs text-white md:block">{artistName}</span>
+                    <span className="line-clamp-2 text-sm dark:text-white md:line-clamp-1">{name}</span>
+                    <span className="line-clamp-1 hidden text-xs dark:text-white md:block">{artistName}</span>
                 </div>
             </div>
 
@@ -62,20 +62,20 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                 >
                     <HeartIcon
                         className={`h-6 w-6 ${
-                            savedSongs.some((song: Song) => song.id === id) ? "text-red-500" : "text-white"
+                            savedSongs.some((song: Song) => song.id === id) ? "text-red-500" : "dark:text-white"
                         }`}
                     />
                 </button>
                 <button
                     id={id + `-play-pause-button`}
                     aria-label="Play/Pause Button"
-                    className="rounded-full bg-white p-2 shadow-2xl"
+                    className="rounded-full bg-black dark:bg-white p-2 shadow-2xl"
                     onClick={playSong}
                 >
                     {activeSong && activeSong.id === id && isPlaying ? (
-                        <PauseIcon className="h-5 w-5" />
+                        <PauseIcon className="h-5 w-5 text-white dark:text-black" />
                     ) : (
-                        <PlayIcon className="h-5 w-5" />
+                        <PlayIcon className="h-5 w-5 text-white dark:text-black" />
                     )}
                 </button>
             </div>

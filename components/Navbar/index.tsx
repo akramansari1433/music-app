@@ -8,15 +8,17 @@ import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { searchSongs } from "@/slices/songsSlice";
 import { debounce } from "lodash";
-import { HeartIcon, HomeIcon } from "@heroicons/react/24/solid";
+import { HeartIcon, HomeIcon, MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { status, data } = useSession();
+    const { theme, setTheme } = useTheme();
 
     if (status === "unauthenticated") {
         return null;
@@ -36,7 +38,7 @@ export default function Navbar() {
             <div className="fixed inset-x-3 top-3  z-50 lg:ml-3 lg:pl-72">
                 <div
                     className={`${status === "loading" ? "opacity-0" : ""}
-                    z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-800 px-4 shadow-sm transition-all duration-300 sm:gap-x-6 sm:px-6 lg:px-8`}
+                    z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-300 dark:bg-gray-800 px-4 shadow-sm transition-all duration-300 sm:gap-x-6 sm:px-6 lg:px-8`}
                 >
                     <button
                         type="button"
@@ -50,14 +52,14 @@ export default function Navbar() {
                     <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
                     <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                        <form className="relative flex flex-1">
+                        <form className="relative flex flex-1 py-2">
                             <MagnifyingGlassIcon
-                                className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-white"
+                                className="pointer-events-none absolute inset-y-0 left-3 h-full w-5 dark:text-white"
                                 aria-hidden="true"
                             />
                             <input
                                 id="search-field"
-                                className="block h-full w-full border-none bg-transparent py-0 pl-8 pr-0 text-white placeholder:text-gray-200"
+                                className="block h-full w-full rounded-xl border-none bg-gray-200 dark:bg-gray-700 py-0 pl-10 pr-3 dark:text-white dark:placeholder:text-gray-200 placeholder:text-gray-700"
                                 placeholder="Search..."
                                 type="search"
                                 name="search"
@@ -81,7 +83,7 @@ export default function Navbar() {
                                     )}
                                     <span className="hidden lg:flex lg:items-center">
                                         <span
-                                            className="ml-4 text-sm font-semibold leading-6 text-white"
+                                            className="ml-4 text-sm font-semibold leading-6 dark:text-white"
                                             aria-hidden="true"
                                         >
                                             {data?.user?.name?.split(" ")[0]}
@@ -154,17 +156,17 @@ export default function Navbar() {
                                             className="-m-2.5 p-2.5"
                                             onClick={() => setSidebarOpen(false)}
                                         >
-                                            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                            <XMarkIcon className="h-6 w-6 dark:text-white" aria-hidden="true" />
                                         </button>
                                     </div>
                                 </Transition.Child>
-                                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 py-4 ring-1 ring-white/10">
+                                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-300 dark:bg-gray-800 px-6 py-4 ring-1 ring-white/10">
                                     <div className="flex h-80 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-red-500">
                                         <h1 className="text-4xl font-bold text-white">Music App</h1>
                                     </div>
                                     <div className="flex flex-col gap-y-3 py-3">
                                         <Link
-                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 text-white hover:bg-gray-700"
+                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                                             href="/"
                                             onClick={() => setSidebarOpen(false)}
                                         >
@@ -172,13 +174,25 @@ export default function Navbar() {
                                             <span className="text-xl">Home</span>
                                         </Link>
                                         <Link
-                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 text-white hover:bg-gray-700"
+                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                                             href="/saved"
                                             onClick={() => setSidebarOpen(false)}
                                         >
                                             <HeartIcon className="h-6 w-6" />
                                             <span className="text-xl">Saved</span>
                                         </Link>
+                                    </div>
+                                    <div className="mt-auto flex justify-center">
+                                        <button
+                                            className="rounded-full border p-1"
+                                            onClick={() => (theme === "light" ? setTheme("dark") : setTheme("light"))}
+                                        >
+                                            {theme === "dark" ? (
+                                                <SunIcon className="h-6 w-6" />
+                                            ) : (
+                                                <MoonIcon className="h-6 w-6" />
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
                             </Dialog.Panel>
