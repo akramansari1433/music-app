@@ -13,12 +13,19 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+
+const navLinks = [
+    { label: "Home", href: "/", icon: <HomeIcon className="h-6 w-6" /> },
+    { label: "Saved", href: "/saved", icon: <HeartIcon className="h-6 w-6" /> },
+];
 
 export default function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { status, data } = useSession();
     const { theme, setTheme } = useTheme();
+    const pathname = usePathname();
 
     if (status === "unauthenticated") {
         return null;
@@ -165,22 +172,22 @@ export default function Navbar() {
                                         <h1 className="text-4xl font-bold text-white">Music App</h1>
                                     </div>
                                     <div className="flex flex-col gap-y-3 py-3">
-                                        <Link
-                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                                            href="/"
-                                            onClick={() => setSidebarOpen(false)}
-                                        >
-                                            <HomeIcon className="h-6 w-6" />
-                                            <span className="text-xl">Home</span>
-                                        </Link>
-                                        <Link
-                                            className="flex flex-row items-center gap-3 rounded-md px-3 py-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                                            href="/saved"
-                                            onClick={() => setSidebarOpen(false)}
-                                        >
-                                            <HeartIcon className="h-6 w-6" />
-                                            <span className="text-xl">Saved</span>
-                                        </Link>
+                                        {navLinks.map((item, idx) => {
+                                            const isActive = pathname === item.href;
+                                            return (
+                                                <Link
+                                                    key={idx}
+                                                    className={`${
+                                                        isActive && "bg-white dark:bg-gray-700"
+                                                    } flex flex-row items-center text-lg gap-3 rounded-md px-3 py-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700`}
+                                                    href={item.href}
+                                                    onClick={() => setSidebarOpen(false)}
+                                                >
+                                                    {item.icon}
+                                                    {item.label}
+                                                </Link>
+                                            );
+                                        })}
                                     </div>
                                     <div className="mt-auto flex justify-center">
                                         <button
