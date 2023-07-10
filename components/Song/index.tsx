@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { HeartIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { PauseIcon } from "@heroicons/react/20/solid";
+import Modal from "../Modal";
+import { useState } from "react";
 
 export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song) {
     const dispatch = useDispatch();
     const { activeSong, isPlaying, savedSongs } = useSelector((state: RootState) => state.songs);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const playSong = () => {
         if (activeSong && activeSong.id === id) {
@@ -28,7 +31,10 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
 
     return (
         <div className="flex w-full flex-row items-center justify-between rounded-xl p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-            <div className="flex flex-row items-center gap-5">
+            <div
+                className="flex flex-row items-center gap-5 cursor-pointer"
+                onClick={() => setIsModalOpen(!isModalOpen)}
+            >
                 <Image
                     className="h-16 w-16 rounded-md object-cover md:h-20 md:w-20"
                     src={imageUrl}
@@ -79,6 +85,34 @@ export default function Card({ id, imageUrl, name, audioUrl, artistName }: Song)
                     )}
                 </button>
             </div>
+
+            <Modal open={isModalOpen} setOpen={setIsModalOpen}>
+                <div className="p-5">
+                    <div className="relative h-72 mt-10">
+                        <Image className="object-fit rounded-md" src={imageUrl} alt="image" fill />
+                    </div>
+                    <div className="flex flex-row items-center py-5 gap-3">
+                        <div className="w-full">
+                            <h1 className="text-lg md:text-2xl font-semibold">{name}</h1>
+                            <h2 className="text-sm md:text-lg">By {artistName}</h2>
+                        </div>
+                        <div>
+                            <button
+                                id={id + `-play-pause-button`}
+                                aria-label="Play/Pause Button"
+                                className="rounded-full bg-black dark:bg-white p-2 shadow-2xl"
+                                onClick={playSong}
+                            >
+                                {activeSong && activeSong.id === id && isPlaying ? (
+                                    <PauseIcon className="h-5 w-5 text-white dark:text-black" />
+                                ) : (
+                                    <PlayIcon className="h-5 w-5 text-white dark:text-black" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 }
