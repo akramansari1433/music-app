@@ -37,7 +37,7 @@ export default function MusicPlayer() {
     return (
         <div
             className={`fixed bottom-0  w-full dark:bg-black dark:text-white ${
-                activeSong ? "z-50 h-20" : "h-0"
+                activeSong ? "z-50 h-20" : "h-0 -z-50"
             } overflow-hidden p-3 transition-all duration-300`}
         >
             {activeSong && (
