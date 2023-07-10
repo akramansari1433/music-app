@@ -45,6 +45,8 @@ export default function Sidebar() {
                 </div>
                 <div className="mt-auto flex justify-center">
                     <button
+                        id="desktop-theme-change-button"
+                        aria-label="Theme change button"
                         className="rounded-full border p-1"
                         onClick={() => (theme === "light" ? setTheme("dark") : setTheme("light"))}
                     >
