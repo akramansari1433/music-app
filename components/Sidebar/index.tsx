@@ -15,7 +15,7 @@ const navLinks = [
 ];
 
 export default function Sidebar() {
-    const { isPlaying } = useSelector((state: RootState) => state.songs);
+    const { activeSong } = useSelector((state: RootState) => state.songs);
     const { status } = useSession();
     const { theme, setTheme } = useTheme();
     const pathname = usePathname();
@@ -26,7 +26,7 @@ export default function Sidebar() {
 
     return (
         <div
-            className={`hidden lg:fixed lg:top-3 ${isPlaying ? "lg:bottom-24" : "lg:bottom-3"}
+            className={`hidden lg:fixed lg:top-3 ${activeSong ? "lg:bottom-24" : "lg:bottom-3"}
             ${status === "loading" ? "opacity-0" : ""}
             transition-all duration-300 lg:inset-x-3 lg:z-50 lg:flex lg:w-72 lg:flex-col`}
         >

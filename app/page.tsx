@@ -67,7 +67,7 @@ export default function Home() {
     return (
         <main
             className={`fixed inset-x-0 top-20 mx-3 my-1 overflow-auto rounded-lg bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-900 p-2 md:p-5 lg:ml-[19.75rem] 
-            ${isPlaying ? "bottom-24" : "bottom-3"} 
+            ${activeSong ? "bottom-24" : "bottom-3"} 
             ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
         >
             <div>
