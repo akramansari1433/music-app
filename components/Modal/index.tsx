@@ -13,7 +13,12 @@ export default function Modal({ open, setOpen, children }: ModalProps) {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Dialog
+                as="div"
+                className="fixed inset-0 overflow-y-auto z-10"
+                initialFocus={cancelButtonRef}
+                onClose={setOpen}
+            >
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -23,7 +28,7 @@ export default function Modal({ open, setOpen, children }: ModalProps) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    <div className="fixed inset-0 backdrop-blur-md" />
                 </Transition.Child>
 
                 <Transition.Child

@@ -42,7 +42,7 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className="fixed inset-x-3 top-3  z-50 lg:ml-3 lg:pl-72">
+            <div className="fixed inset-x-3 top-3 z-10 lg:ml-3 lg:pl-72">
                 <div
                     className={`${status === "loading" ? "opacity-0" : ""}
                     z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-300 dark:bg-gray-800 px-4 shadow-sm transition-all duration-300 sm:gap-x-6 sm:px-6 lg:px-8`}
@@ -107,7 +107,7 @@ export default function Navbar() {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-50 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                                    <Menu.Items className="absolute right-0 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                         <Menu.Item>
                                             <button
                                                 onClick={() => signOut()}
