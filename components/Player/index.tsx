@@ -62,7 +62,7 @@ export default function Player() {
             } overflow-hidden p-3 transition-all duration-300`}
         >
             {activeSong && (
-                <div className="flex flex-row justify-between md:grid md:grid-cols-3 md:gap-5">
+                <div className="flex flex-row justify-between md:grid md:grid-cols-3 md:gap-10">
                     {/* Songs details */}
                     <div className="h-full flex-row items-center gap-x-3 md:flex">
                         <Image
