@@ -13,7 +13,7 @@ interface CardProps {
     onSave: (song: Song) => void;
 }
 
-export default function Card({ song, isSaved, isPlaying, activeSong, onPlayPause, onSave }: CardProps) {
+export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause, onSave }: CardProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (

@@ -7,7 +7,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function MusicPlayer() {
+export default function Player() {
     const { activeSong, isPlaying } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);

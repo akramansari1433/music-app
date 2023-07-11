@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
-import MusicPlayer from "@/components/Player";
+import Player from "@/components/Player";
 import { Providers } from "./provider";
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Navbar />
                     <Sidebar />
                     <main>{children}</main>
-                    <MusicPlayer />
+                    <Player />
                 </Providers>
             </body>
         </html>
