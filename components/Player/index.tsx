@@ -1,28 +1,49 @@
 "use client";
-import { setPlaying } from "@/slices/songsSlice";
+import { setActiveSong, setPlaying } from "@/slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { PauseIcon, SpeakerWaveIcon, PlayIcon } from "@heroicons/react/20/solid";
-import { SpeakerXMarkIcon } from "@heroicons/react/24/solid";
+import { BackwardIcon, ForwardIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Player() {
-    const { activeSong, isPlaying } = useSelector((state: RootState) => state.songs);
+    const { activeSong, isPlaying, songs } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch<AppDispatch>();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [muted, setMuted] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
 
-    function formatDuration(duration: number) {
-        const minutes = Math.floor(duration / 60);
-        const seconds = Math.floor(duration % 60);
+    function formatDuration(duration: number | undefined) {
+        if (typeof duration === "number" && !isNaN(duration)) {
+            const minutes = Math.floor(duration / 60);
+            const seconds = Math.floor(duration % 60);
 
-        const formattedMinutes = String(minutes).padStart(2, "0");
-        const formattedSeconds = String(seconds).padStart(2, "0");
+            const formattedMinutes = String(minutes).padStart(2, "0");
+            const formattedSeconds = String(seconds).padStart(2, "0");
 
-        return `${formattedMinutes}:${formattedSeconds}`;
+            return `${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        return "0:00";
     }
+    //Play the next song
+    const playNextSong = () => {
+        const currentIndex = songs.findIndex((song) => song.id === activeSong?.id);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSong = songs[nextIndex];
+        dispatch(setActiveSong(nextSong));
+        dispatch(setPlaying(true));
+    };
+
+    // Play the previous song
+    const playPreviousSong = () => {
+        const currentIndex = songs.findIndex((song) => song.id === activeSong?.id);
+        const previousIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
+        const previousSong = songs[previousIndex];
+        dispatch(setActiveSong(previousSong));
+        dispatch(setPlaying(true));
+    };
 
     useEffect(() => {
         if (activeSong && audioRef.current) {
@@ -42,6 +63,7 @@ export default function Player() {
         >
             {activeSong && (
                 <div className="flex flex-row justify-between">
+                    {/* Songs details */}
                     <div className="max-w-xs flex-row items-center gap-x-3 md:flex">
                         <Image
                             className="h-16 w-full md:w-auto aspect-square rounded-md object-cover"
@@ -61,12 +83,20 @@ export default function Player() {
                     <div className="w-[80%] md:w-auto flex flex-col gap-y-2">
                         <div className="flex flex-row items-end justify-between md:justify-center gap-5">
                             <span className="text-xs md:hidden">{formatDuration(currentTime)}</span>
-                            <button
-                                className="rounded-full bg-black dark:bg-white p-2 text-white dark:text-black"
-                                onClick={() => dispatch(setPlaying(!isPlaying))}
-                            >
-                                {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
-                            </button>
+                            <div className="flex flex-row items-center gap-x-3">
+                                <button onClick={playPreviousSong}>
+                                    <BackwardIcon className="h-6 w-6" />
+                                </button>
+                                <button
+                                    className="rounded-full bg-black dark:bg-white p-2 text-white dark:text-black"
+                                    onClick={() => dispatch(setPlaying(!isPlaying))}
+                                >
+                                    {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
+                                </button>
+                                <button onClick={playNextSong}>
+                                    <ForwardIcon className="h-6 w-6" />
+                                </button>
+                            </div>
                             <span className="text-xs md:hidden">{formatDuration(audioRef.current?.duration!)}</span>
                         </div>
                         <div className="flex w-full flex-row items-center gap-3">
@@ -75,7 +105,7 @@ export default function Player() {
                                 className="accent-slate-500 w-full md:w-60 lg:w-72"
                                 type="range"
                                 min={0}
-                                max={audioRef.current?.duration!}
+                                max={audioRef.current?.duration! || ""}
                                 step={0.1}
                                 value={currentTime}
                                 onChange={(e) => {
