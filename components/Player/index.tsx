@@ -64,7 +64,7 @@ export default function Player() {
             {activeSong && (
                 <div className="flex flex-row justify-between md:grid md:grid-cols-3 md:gap-5">
                     {/* Songs details */}
-                    <div className="max-w-xs h-full flex-row items-center gap-x-3 md:flex">
+                    <div className="h-full flex-row items-center gap-x-3 md:flex">
                         <Image
                             className="h-16 w-full md:w-auto aspect-square rounded-md object-cover"
                             src={activeSong?.imageUrl}
@@ -74,8 +74,7 @@ export default function Player() {
                         />
 
                         <div className="hidden md:flex flex-col">
-                            <span className="line-clamp-1">{activeSong?.name}</span>
-                            <span className="line-clamp-1 text-xs">{activeSong && activeSong.artistName}</span>
+                            <span className="line-clamp-2">{activeSong?.name}</span>
                         </div>
                     </div>
 
@@ -84,16 +83,18 @@ export default function Player() {
                         <div className="flex flex-row items-end justify-between md:justify-center gap-5">
                             <span className="text-xs md:hidden">{formatDuration(currentTime)}</span>
                             <div className="flex flex-row items-center gap-x-5">
-                                <button onClick={playPreviousSong}>
+                                <button id="play-prev-button" aria-label="Play Prev" onClick={playPreviousSong}>
                                     <BackwardIcon className="h-6 w-6" />
                                 </button>
                                 <button
+                                    id="player-play-pause-button"
+                                    aria-label="Play/Pause Button"
                                     className="rounded-full bg-black dark:bg-white p-2 text-white dark:text-black"
                                     onClick={() => dispatch(setPlaying(!isPlaying))}
                                 >
                                     {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
                                 </button>
-                                <button onClick={playNextSong}>
+                                <button id="play-next-button" aria-label="Play Next" onClick={playNextSong}>
                                     <ForwardIcon className="h-6 w-6" />
                                 </button>
                             </div>
