@@ -57,14 +57,14 @@ export default function Player() {
 
     return (
         <div
-            className={`fixed bottom-0  w-full dark:bg-black dark:text-white ${
+            className={`fixed bottom-3 w-full dark:bg-black dark:text-white ${
                 activeSong ? "z-50 h-20" : "h-0 -z-50"
             } overflow-hidden p-3 transition-all duration-300`}
         >
             {activeSong && (
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between md:grid md:grid-cols-3 md:gap-5">
                     {/* Songs details */}
-                    <div className="max-w-xs flex-row items-center gap-x-3 md:flex">
+                    <div className="max-w-xs h-full flex-row items-center gap-x-3 md:flex">
                         <Image
                             className="h-16 w-full md:w-auto aspect-square rounded-md object-cover"
                             src={activeSong?.imageUrl}
@@ -80,10 +80,10 @@ export default function Player() {
                     </div>
 
                     {/* audio control */}
-                    <div className="w-[80%] md:w-auto flex flex-col gap-y-2">
+                    <div className="w-[80%] md:w-full h-full flex flex-col justify-center gap-y-3">
                         <div className="flex flex-row items-end justify-between md:justify-center gap-5">
                             <span className="text-xs md:hidden">{formatDuration(currentTime)}</span>
-                            <div className="flex flex-row items-center gap-x-3">
+                            <div className="flex flex-row items-center gap-x-5">
                                 <button onClick={playPreviousSong}>
                                     <BackwardIcon className="h-6 w-6" />
                                 </button>
@@ -119,7 +119,7 @@ export default function Player() {
                     </div>
 
                     {/* volume slider */}
-                    <div className="hidden md:flex h-full w-auto flex-row items-center gap-3">
+                    <div className="hidden md:flex justify-end h-full w-auto flex-row items-center gap-3">
                         <button
                             id="volume-mute-unmute"
                             aria-label="Volume mute/unmute"
@@ -144,10 +144,7 @@ export default function Player() {
                     <audio
                         ref={audioRef}
                         src={activeSong.audioUrl}
-                        onEnded={() => {
-                            dispatch(setPlaying(false));
-                            audioRef.current!.currentTime = 0;
-                        }}
+                        onEnded={playNextSong}
                         onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime!)}
                         muted={muted}
                     ></audio>
