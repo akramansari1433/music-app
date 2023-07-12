@@ -79,9 +79,8 @@ export default function Player() {
                     </div>
 
                     {/* audio control */}
-                    <div className="w-[80%] md:w-full h-full flex flex-col justify-center gap-y-3">
+                    <div className="w-[80%] md:w-full h-full flex flex-col items-center justify-center gap-y-3">
                         <div className="flex flex-row items-end justify-between md:justify-center gap-5">
-                            <span className="text-xs md:hidden">{formatDuration(currentTime)}</span>
                             <div className="flex flex-row items-center gap-x-5">
                                 <button id="play-prev-button" aria-label="Play Prev" onClick={playPreviousSong}>
                                     <BackwardIcon className="h-6 w-6" />
@@ -98,10 +97,9 @@ export default function Player() {
                                     <ForwardIcon className="h-6 w-6" />
                                 </button>
                             </div>
-                            <span className="text-xs md:hidden">{formatDuration(audioRef.current?.duration!)}</span>
                         </div>
-                        <div className="flex w-full flex-row items-center gap-3">
-                            <span className="hidden md:block text-xs">{formatDuration(currentTime)}</span>
+                        <div className="flex w-full justify-center flex-row items-center gap-3">
+                            <span className="text-xs">{formatDuration(currentTime)}</span>
                             <input
                                 className="accent-slate-500 w-full md:w-60 lg:w-72"
                                 type="range"
@@ -113,9 +111,7 @@ export default function Player() {
                                     audioRef.current!.currentTime = Number(e.target.value);
                                 }}
                             />
-                            <span className="hidden md:block text-xs">
-                                {formatDuration(audioRef.current?.duration!)}
-                            </span>
+                            <span className="text-xs">{formatDuration(audioRef.current?.duration!)}</span>
                         </div>
                     </div>
 
