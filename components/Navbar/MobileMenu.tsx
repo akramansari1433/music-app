@@ -66,7 +66,7 @@ export default function MobileMenu({ sidebarOpen, setSidebarOpen }: MobileMenuPr
                                 </div>
                             </Transition.Child>
                             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-300 dark:bg-gray-800 px-6 py-4 ring-1 ring-white/10">
-                                <div className="flex h-80 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-red-500">
+                                <div className="flex aspect-square items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-red-500">
                                     <h1 className="text-4xl font-bold text-white">Music App</h1>
                                 </div>
                                 <div className="flex flex-col gap-y-3 py-3">
