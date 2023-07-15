@@ -3,6 +3,7 @@ import { HeartIcon, PlayIcon } from "@heroicons/react/24/solid";
 import { PauseIcon } from "@heroicons/react/20/solid";
 import Modal from "../Modal";
 import { useState } from "react";
+import Button from "../Button";
 
 interface SongProps {
     song: Song;
@@ -37,26 +38,26 @@ export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause
             </div>
 
             <div className="ml-3 flex flex-row items-center gap-x-5 md:gap-x-8">
-                <button
+                <Button
                     id={song.id + `-save-song`}
-                    aria-label="Save Song"
-                    className="rounded-full shadow-2xl"
+                    accessibleLabel="Save Song"
+                    className="rounded-full p-2 bg-transparent dark:bg-transparent text-black dark:text-white"
+                    icon={<HeartIcon className={`h-6 w-6 ${isSaved ? "text-red-500" : ""}`} />}
                     onClick={() => onSave(song)}
-                >
-                    <HeartIcon className={`h-6 w-6 ${isSaved ? "text-red-500" : "dark:text-white"}`} />
-                </button>
-                <button
+                />
+                <Button
                     id={song.id + `-play-pause-button`}
-                    aria-label="Play/Pause Button"
-                    className="rounded-full bg-black dark:bg-white p-2 shadow-2xl"
+                    accessibleLabel="Play/Pause Button"
+                    className="rounded-full p-2 shadow-2xl"
                     onClick={() => onPlayPause(song)}
-                >
-                    {activeSong && activeSong.id === song.id && isPlaying ? (
-                        <PauseIcon className="h-5 w-5 text-white dark:text-black" />
-                    ) : (
-                        <PlayIcon className="h-5 w-5 text-white dark:text-black" />
-                    )}
-                </button>
+                    icon={
+                        activeSong && activeSong.id === song.id && isPlaying ? (
+                            <PauseIcon className="h-5 w-5" />
+                        ) : (
+                            <PlayIcon className="h-5 w-5" />
+                        )
+                    }
+                />
             </div>
 
             <Modal open={isModalOpen} setOpen={setIsModalOpen}>
@@ -70,18 +71,19 @@ export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause
                             <h2 className="text-sm md:text-lg">By {song.artistName}</h2>
                         </div>
                         <div>
-                            <button
+                            <Button
                                 id={song.id + `-play-pause-button`}
-                                aria-label="Play/Pause Button"
-                                className="rounded-full bg-black dark:bg-white p-2 shadow-2xl"
+                                accessibleLabel="Play/Pause Button"
+                                className="rounded-full p-2"
                                 onClick={() => onPlayPause(song)}
-                            >
-                                {activeSong && activeSong.id === song.id && isPlaying ? (
-                                    <PauseIcon className="h-5 w-5 text-white dark:text-black" />
-                                ) : (
-                                    <PlayIcon className="h-5 w-5 text-white dark:text-black" />
-                                )}
-                            </button>
+                                icon={
+                                    activeSong && activeSong.id === song.id && isPlaying ? (
+                                        <PauseIcon className="h-5 w-5 text-white dark:text-black" />
+                                    ) : (
+                                        <PlayIcon className="h-5 w-5 text-white dark:text-black" />
+                                    )
+                                }
+                            />
                         </div>
                     </div>
                 </div>

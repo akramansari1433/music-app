@@ -6,6 +6,7 @@ import { BackwardIcon, ForwardIcon, SpeakerXMarkIcon } from "@heroicons/react/24
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "../Button";
 
 export default function Player() {
     const { activeSong, isPlaying, songs } = useSelector((state: RootState) => state.songs);
@@ -82,20 +83,29 @@ export default function Player() {
                     <div className="w-[80%] md:w-full h-full flex flex-col items-center justify-center gap-y-3">
                         <div className="flex flex-row items-end justify-between md:justify-center gap-5">
                             <div className="flex flex-row items-center gap-x-5">
-                                <button id="play-prev-button" aria-label="Play Prev" onClick={playPreviousSong}>
-                                    <BackwardIcon className="h-6 w-6" />
-                                </button>
-                                <button
+                                <Button
+                                    id="play-prev-button"
+                                    accessibleLabel="Play Prev"
+                                    className="p-0 text-black dark:text-white bg-transparent dark:bg-transparent"
+                                    onClick={playPreviousSong}
+                                    icon={<BackwardIcon className="h-6 w-6" />}
+                                />
+                                <Button
                                     id="player-play-pause-button"
-                                    aria-label="Play/Pause Button"
-                                    className="rounded-full bg-black dark:bg-white p-2 text-white dark:text-black"
+                                    accessibleLabel="Play/Pause Button"
+                                    className="rounded-full p-2"
                                     onClick={() => dispatch(setPlaying(!isPlaying))}
-                                >
-                                    {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
-                                </button>
-                                <button id="play-next-button" aria-label="Play Next" onClick={playNextSong}>
-                                    <ForwardIcon className="h-6 w-6" />
-                                </button>
+                                    icon={
+                                        isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />
+                                    }
+                                />
+                                <Button
+                                    id="play-next-button"
+                                    accessibleLabel="Play Next"
+                                    className="p-0 text-black dark:text-white bg-transparent dark:bg-transparent"
+                                    onClick={playNextSong}
+                                    icon={<ForwardIcon className="h-6 w-6" />}
+                                />
                             </div>
                         </div>
                         <div className="flex w-full justify-center flex-row items-center gap-3">
@@ -117,17 +127,19 @@ export default function Player() {
 
                     {/* volume slider */}
                     <div className="hidden md:flex justify-end h-full w-auto flex-row items-center gap-3">
-                        <button
+                        <Button
                             id="volume-mute-unmute"
-                            aria-label="Volume mute/unmute"
+                            accessibleLabel="Volume mute/unmute"
+                            className="p-1 text-black dark:text-white bg-transparent dark:bg-transparent"
                             onClick={() => setMuted(!muted)}
-                        >
-                            {muted || audioRef.current?.volume === 0 ? (
-                                <SpeakerXMarkIcon className="h-6 w-6" />
-                            ) : (
-                                <SpeakerWaveIcon className="h-6 w-6" />
-                            )}
-                        </button>
+                            icon={
+                                muted || audioRef.current?.volume === 0 ? (
+                                    <SpeakerXMarkIcon className="h-6 w-6" />
+                                ) : (
+                                    <SpeakerWaveIcon className="h-6 w-6" />
+                                )
+                            }
+                        />
                         <input
                             type="range"
                             min={0}
