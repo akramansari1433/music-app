@@ -4,7 +4,7 @@ import { PauseIcon } from "@heroicons/react/20/solid";
 import Modal from "../Modal";
 import { useState } from "react";
 
-interface CardProps {
+interface SongProps {
     song: Song;
     isSaved: boolean;
     activeSong: Song;
@@ -13,7 +13,7 @@ interface CardProps {
     onSave: (song: Song) => void;
 }
 
-export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause, onSave }: CardProps) {
+export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause, onSave }: SongProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
