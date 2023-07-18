@@ -62,7 +62,7 @@ export default function Home() {
                 observer.disconnect();
             }
         };
-    }, [songs]);
+    }, [songs.length]);
 
     return (
         <main
