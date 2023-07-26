@@ -2,21 +2,12 @@
 import Song from "@/components/Song";
 import { getSavedSongs, onSaveSong, setActiveSong, setPlaying } from "@/slices/songsSlice";
 import { RootState } from "@/store/store";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SavedSongs() {
     const { activeSong, savedSongs, isPlaying } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch();
-    
-    useSession({
-        required: true,
-        onUnauthenticated() {
-            redirect("/login");
-        },
-    });
 
     const onPlayPause = (song: Song) => {
         if (activeSong && activeSong.id === song.id) {

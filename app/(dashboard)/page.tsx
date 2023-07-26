@@ -4,16 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSongs, onSaveSong, setActiveSong, setPlaying } from "../../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import Song from "@/components/Song";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 export default function Home() {
-    const { status } = useSession({
-        required: true,
-        onUnauthenticated() {
-            redirect("/login");
-        },
-    });
     const dispatch = useDispatch<AppDispatch>();
     const { songs, loading, isPlaying, activeSong, savedSongs } = useSelector((state: RootState) => state.songs);
     const [offset, setOffset] = useState(0);

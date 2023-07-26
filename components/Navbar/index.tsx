@@ -15,7 +15,7 @@ import MobileMenu from "./MobileMenu";
 export default function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { status, data } = useSession();
+    const { data } = useSession();
 
     const debouncedSearch = debounce((searchValue) => {
         dispatch(searchSongs(searchValue));
