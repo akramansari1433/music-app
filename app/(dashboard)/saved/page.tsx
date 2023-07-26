@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 export default function SavedSongs() {
     const { activeSong, savedSongs, isPlaying } = useSelector((state: RootState) => state.songs);
     const dispatch = useDispatch();
-    const { status } = useSession({
+    
+    useSession({
         required: true,
         onUnauthenticated() {
             redirect("/login");
@@ -46,7 +47,7 @@ export default function SavedSongs() {
         <main
             className={`fixed inset-x-0 top-20 mx-3 my-1 overflow-auto rounded-lg bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-900 p-2 md:p-5 lg:ml-[19.75rem] 
             ${activeSong ? "bottom-24" : "bottom-3"} 
-            ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
+            transition-all duration-300`}
         >
             <div>
                 <div className="flex flex-col">

@@ -17,10 +17,6 @@ export default function Navbar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { status, data } = useSession();
 
-    if (status === "unauthenticated") {
-        return null;
-    }
-
     const debouncedSearch = debounce((searchValue) => {
         dispatch(searchSongs(searchValue));
     }, 500);
@@ -32,10 +28,9 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className="fixed inset-x-3 top-3 z-10 lg:ml-3 lg:pl-72">
+            <div className="fixed inset-x-3 top-3 z-10 lg:ml-3 lg:pl-72 transition-all duration-300">
                 <div
-                    className={`${status === "loading" ? "opacity-0" : ""}
-                    z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-300 dark:bg-gray-800 px-4 shadow-sm transition-all duration-300 sm:gap-x-6 sm:px-6 lg:px-8`}
+                    className={`z-40 flex h-16 items-center gap-x-4 rounded-xl bg-gray-300 dark:bg-gray-800 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8`}
                 >
                     <button
                         type="button"

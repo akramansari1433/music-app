@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSongs, onSaveSong, setActiveSong, setPlaying } from "../slices/songsSlice";
+import { fetchSongs, onSaveSong, setActiveSong, setPlaying } from "../../slices/songsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import Song from "@/components/Song";
 import { useSession } from "next-auth/react";
@@ -68,7 +68,7 @@ export default function Home() {
         <main
             className={`fixed inset-x-0 top-20 mx-3 my-1 overflow-auto rounded-lg bg-gradient-to-b from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-900 p-2 md:p-5 lg:ml-[19.75rem] 
             ${activeSong ? "bottom-24" : "bottom-3"} 
-            ${status === "loading" ? "opacity-0" : ""} transition-all duration-300`}
+            transition-all duration-300`}
         >
             <div>
                 <div className="flex flex-col">

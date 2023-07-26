@@ -1,7 +1,4 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import Player from "@/components/Player";
 import { Providers } from "./provider";
 
 export const metadata = {
@@ -14,10 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <body className="bg-white dark:bg-black font-mono">
                 <Providers>
-                    <Navbar />
-                    <Sidebar />
                     <main>{children}</main>
-                    <Player />
                 </Providers>
             </body>
         </html>
