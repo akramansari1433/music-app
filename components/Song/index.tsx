@@ -63,7 +63,7 @@ export default function Song({ song, isSaved, isPlaying, activeSong, onPlayPause
             <Modal open={isModalOpen} setOpen={setIsModalOpen}>
                 <div className="p-5">
                     <div className="relative h-72 mt-10">
-                        <Image className="object-fit rounded-md" src={song.imageUrl} alt="image" fill />
+                        <Image className="object-cover rounded-md" src={song.imageUrl} alt="image" fill />
                     </div>
                     <div className="flex flex-row items-center py-5 gap-3">
                         <div className="w-full">

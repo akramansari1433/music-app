@@ -5,7 +5,7 @@ export const fetchSongs = createAsyncThunk("songs/fetchSongs", async (offset: nu
     const data = await response.json();
     return data.results.map((song: any) => ({
         id: song.trackId,
-        imageUrl: song.artworkUrl100,
+        imageUrl: song.artworkUrl100.replace("100x100","600x600"),
         name: song.trackName,
         audioUrl: song.previewUrl,
         artistName: song.artistName,
