@@ -28,6 +28,7 @@ export default function SavedSongs() {
 
     const onSave = (song: Song) => {
         dispatch(onSaveSong(song));
+        console.log("Hello");
     };
 
     useEffect(() => {
